@@ -1,0 +1,34 @@
+Package: tcmbadespesas
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "George",
+           family = "Santiago",
+           role = c("aut", "cre"),
+           email = "georgevbsantiago@hotmail.com")
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    httr,
+    rvest,
+    xml2,
+    XML,
+    tibble,
+    readr,
+    dplyr,
+    magrittr,
+    tidyr,
+    janitor,
+    stringr,
+    stringi,
+    lubridate,
+    purrr,
+    furrr,
+    DBI,
+    RSQLite,
+    zip,
+    googledrive,
+    rdrop2,
+    digest
