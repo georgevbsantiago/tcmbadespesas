@@ -87,7 +87,7 @@ executar_tidy_data <- function(sgbd) {
                          ~lubridate::dmy(.)) %>%
         dplyr::mutate_at(c(fase:declaracao),
                          ~stringr::str_to_upper(.)) %>%
-        dplyr::mutate_all(stringr::str_trim) %>%
+        dplyr::mutate_all(~stringr::str_trim(.)) %>%
         dplyr::mutate_all(~stringi::stri_trans_general(., "latin-ascii"))
 
     #Desconectar do DBI::dbReadTable
