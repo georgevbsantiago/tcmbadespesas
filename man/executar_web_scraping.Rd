@@ -5,7 +5,7 @@
 \title{Função que executa o Web Scraping}
 \usage{
 executar_web_scraping(nome_scraping = "ws_tcmba_despesas",
-  ano_inicio = "2019", cod_municipios_alvos = c(2928703),
+  ano_inicio = 2019, cod_municipios_alvos = c(2928703),
   sgbd = "sqlite", repetir = "SIM", backup_local = "SIM",
   backup_nuvem = "NAO", exportar_nuvem = "NAO")
 }

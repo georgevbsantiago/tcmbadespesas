@@ -38,7 +38,7 @@
 #' @export
 
 executar_web_scraping <- function(nome_scraping = "ws_tcmba_despesas",
-                                  ano_inicio = "2019",
+                                  ano_inicio = 2019,
                                   cod_municipios_alvos = c(2928703),
                                   sgbd = "sqlite",
                                   repetir = "SIM",
