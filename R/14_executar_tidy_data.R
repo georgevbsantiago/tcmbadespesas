@@ -1,5 +1,11 @@
 #' @title Função que transforma os dados para o padrão "tidy data"
 #'
+#' @param sgbd Define qual é o Banco de Dados a ser utilizado.
+#' Por padrão, é definido o SQLite.
+#' 
+#' @importFrom magrittr %>%
+#'
+#' @export
 
 executar_tidy_data <- function(sgbd) {
 

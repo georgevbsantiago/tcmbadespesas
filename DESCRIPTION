@@ -1,34 +1,38 @@
 Package: tcmbadespesas
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Web Scraping das Despesas de Pessoas dos Municipios do Estado da Bahia
+Description: Web Scraping desenvolvido pelo Observatório Social de Santo Antonio de Jesus (Brasil/Bahia).
+    Tem como objetivo obter e tratar os dados das Despesas dos Municipios do Estado da Bahia
+    disponibilizados no site (na estrutura HTML) do TCM-Ba.
+Version: 0.1.0
 Authors@R: 
-    person(given = "George",
-           family = "Santiago",
+    person("George",
+           "Santiago",
            role = c("aut", "cre"),
            email = "georgevbsantiago@hotmail.com")
-Description: What the package does (one paragraph).
-License: What license it uses
+Maintainer: George Santiago <georgevbsantiago@hotmail.com>
+URL: https://github.com/georgevbsantiago/tcmbapessoal
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    magrittr,
     httr,
     rvest,
     xml2,
-    XML,
     tibble,
     readr,
     dplyr,
-    magrittr,
     tidyr,
     janitor,
     stringr,
     stringi,
     lubridate,
     purrr,
-    furrr,
     DBI,
     RSQLite,
     zip,
-    googledrive,
     rdrop2,
     digest
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+

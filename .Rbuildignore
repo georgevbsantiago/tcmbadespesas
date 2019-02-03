@@ -1,0 +1,6 @@
+^outros$
+^README\.Rmd$
+^LICENSE\.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.httr-oauth$
