@@ -41,21 +41,21 @@ scraping_tcm_municipios <- function() {
     
     
     list_tcm_municipios <- httr::GET(url_tcm) %>%
-        xml2::read_html() %>%
-        rvest::html_nodes("#municipio > option")
+                           xml2::read_html() %>%
+                           rvest::html_nodes("#municipio > option")
     
     cod_municipio <- list_tcm_municipios %>%
-        rvest::html_attr("value")
+                     rvest::html_attr("value")
     
     nm_municipio <- list_tcm_municipios %>%
-        rvest::html_text() %>%
-        stringr::str_replace(., "[*/º]", "") %>%
-        stringr::str_trim()
+                    rvest::html_text() %>%
+                    stringr::str_replace(., "[*/º]", "") %>%
+                    stringr::str_trim()
     
     tabela_tcm_dmunicipios <- tibble::tibble(cod_municipio = cod_municipio,
                                              nm_municipio = nm_municipio,
                                              log_create = log_data_hora()) %>%
-        dplyr::filter(cod_municipio != "")
+                              dplyr::filter(cod_municipio != "")
     
     return(tabela_tcm_dmunicipios)
     
