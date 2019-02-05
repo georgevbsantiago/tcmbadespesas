@@ -154,10 +154,10 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 ######################################################################################
 
 # PRIORIDADES
+#!!! Documentar todo o código;
+
 #!!! Implementar uma rotina para evitar timeout nos Webs Scrapings que estão
 #    contidos nas funções 'criar_tb_dmunicipios_entidades' e 'criar_tb_dmunicipios'
-
-#!!! Documentar todo o código;
 
 #!!! Implementar um ChatBot pelo Telegram com o pacote 'Plumber';
 
@@ -180,14 +180,25 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 
 
 
-
-
 # MELHORIAS
+#!!! Carregar 'tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")' antes do loop com o purrr
+
+#!!! Desenvolver uma nova lógica para a função "executar_scraping_num_pags"
+
+#!!! Usar a função 'fs::path_file_sanitize()' para sanear caminhos de arquivos
+
+# !!! Verificar a necessidade de realizar essa troca
+# tb_municipios_alvos_novos <- tidyr::crossing(tb_dcalendario,
+#                                              tb_municipios_alvos_novos) %>%
+# tb_municipios_alvos_novos <- merge.data.frame(tb_dcalendario,
+#                                              tb_municipios_alvos_novos) %>%
+
 #!!! Criar 3 Banco de Dados. OLTP - Para o Web Scraping; Data Stage Area - Para os Dados Extraídos dos arquivos HMTL de Despesas; 4 - Data WareHouse - Para conectar ao Power BI
 
 #!!! Procurar uma solução no pacote dplyr ou tibble para o 'armengue' feito na função 'criar_tb_entidades_alvos_paginas' com a função merge.data.frame e verificar se há um método de filtro no dplyr::filter, para que não seja necessário criar a coluna 'filtro'
 
 #!!! Retirar a condição 'AUTOINCREMENT' no campo de criação das tabelas, conforme sugerido na documentação no SQLite
+
 #!!! Criar 3 Banco de Dados. OLTP - Para o Web Scraping; Data Stage Area - Para os Dados Extraídos dos arquivos HMTL de Despesas; 4 - Data WareHouse - Para conectar ao Power BI
 
 

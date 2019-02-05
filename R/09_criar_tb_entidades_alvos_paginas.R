@@ -27,8 +27,9 @@ criar_tb_entidades_alvos_paginas <- function(cod_municipios_alvos, sgbd){
                       "cod_entidade", "nm_entidade", "pagina")
         
 
-    # Essa parte do código foi um armenge, em virtude de não ter conseguido colocar o ano para expandir
-    # na rotina anterior. Trocar por alguma função do dplyr ou tidyr::expland()
+    # !!! Verificar a necessidade de realizar essa troca
+    # tb_municipios_alvos_novos <- tidyr::crossing(tb_dcalendario,
+    #                                              tb_municipios_alvos_novos) %>% 
     tb_municipios_alvos_novos <- merge.data.frame(tb_dcalendario,
                                                   tb_municipios_alvos_novos) %>%
                                 tibble::as_tibble() %>%

@@ -51,7 +51,7 @@ executar_backup_arquivos <- function(backup_local = "SIM",
             dir.create(nome_dir_bk)
             
             
-            bd_sqlite <- file.path("bd_sqlite", "bd_tcm_folha_pessoal_municipios.db")
+            bd_sqlite <- file.path("bd_sqlite", "bd_tcm_despesas_municipios.db")
             
             #lista_arquivos_html <- dir("resposta_scraping_links")
                 

@@ -9,7 +9,8 @@
 
 criar_tb_dcalendario <- function(ano_inicio, sgbd = "sqlite"){
     
-    tb_dcalendario <- purrr::map_dfr(ano_inicio, func_dcalendario)
+    tb_dcalendario <- purrr::map_dfr(ano_inicio, func_dcalendario) %>% 
+                      as.data.frame()
 
     
     DBI::dbWriteTable(connect_sgbd(sgbd),
