@@ -83,6 +83,7 @@ executar_tidy_data <- function(sgbd) {
                         sep = " - ",
                         remove = TRUE, extra = "merge") %>%
         dplyr::mutate(valor_das_retencoes = stringr::str_replace(valor_das_retencoes, "-", "0")) %>%
+        dplyr::mutate(cod_favorecido = stringr::str_replace_all(cod_favorecido, "[.-]", "")) %>%
         dplyr::mutate(tipo_de_documento = stringr::str_replace(tipo_de_documento, "[º]", ".")) %>%
         dplyr::mutate_at(c("valor_do_pagamento",
                            "valor_das_retencoes",
