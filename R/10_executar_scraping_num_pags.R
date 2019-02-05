@@ -68,7 +68,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
         scraping_html_purrr <- purrr::safely(httr::GET)
 
-        scraping_tcm_paginas <- scraping_html_purrr(site_tcm, timeout(20))
+        scraping_tcm_paginas <- scraping_html_purrr(site_tcm, httr::timeout(20))
 
         # Grava a hora e data da requisição para ser incluída no arquivo HMTL e no BD
         log_request <- log_data_hora()
@@ -102,7 +102,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
 
                 # Segunda tentativa. Se houver timeout novamente, pular para a próxima requisição.
-                scraping_tcm_paginas <- scraping_html_purrr(site_tcm, timeout(35))
+                scraping_tcm_paginas <- scraping_html_purrr(site_tcm, httr::timeout(35))
 
 
                         if (is.null(scraping_tcm_paginas$result) == TRUE) {
