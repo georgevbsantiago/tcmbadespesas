@@ -10,6 +10,9 @@
 criar_tb_requisicoes_despesas <- function(sgbd) {
 
 
+    print("Iniciando extração dos links de despesas que estão nos HTMLs das páginas...")
+    
+    
     tab_html_num_pags <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links") %>%
                          dplyr::filter(arq_html_pag_tratado == "N")
 
