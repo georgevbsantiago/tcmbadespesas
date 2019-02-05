@@ -4,7 +4,7 @@
 \name{tcmbadespesas-package}
 \alias{tcmbadespesas}
 \alias{tcmbadespesas-package}
-\title{tcmbadespesas: Web Scraping das Despesas de Pessoas dos Municipios do Estado da Bahia}
+\title{tcmbadespesas: Web Scraping das Despesas dos Municipios do Estado da Bahia}
 \description{
 Web Scraping desenvolvido pelo Observatório Social de Santo Antonio de Jesus (Brasil/Bahia).
     Tem como objetivo obter e tratar os dados das Despesas dos Municipios do Estado da Bahia

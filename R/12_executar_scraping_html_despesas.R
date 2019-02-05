@@ -7,7 +7,7 @@
 #' 
 #' @export
 
-executar_scraping_html_despesas <- function(sgbd) {
+executar_scraping_html_despesas <- function(sgbd = "sqlite") {
 
 
     tb_requisicoes <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_requisicoes") %>%
