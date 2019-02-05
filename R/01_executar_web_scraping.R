@@ -170,7 +170,7 @@ executar_web_scraping <- function(nome_scraping = "ws_tcmba_despesas",
     print(paste("Diretório do Web Scraping:", info_ws$dir_wd))
     print(paste("SGBD do Web Scraping:", info_ws$sgbd_ws))
     print(paste("Data de criação do Web Scraping:", info_ws$data_time_create))
-    message("#############################################################")
+    message("###################################################################")
     
     # Registrar a data e hora do início da execução do Web Scraping no arquivo RDS
     inicio_exe_ws_data_time(arq_rds_id_ws)
