@@ -21,7 +21,7 @@ executar_data_wrangling_html_despesas <- function(sgbd = "sqlite") {
 
     if (nrow(tb_requisicoes) == 0) {
 
-        message("Todos os Arquivos HTML das despesas já foram tratados")
+        return(message("Todos os Arquivos HTML das despesas já foram tratados"))
 
     } else {
 
