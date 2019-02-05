@@ -42,7 +42,7 @@ scraping_tcm_municipios <- function() {
     
     list_tcm_municipios <- httr::GET(url_tcm) %>%
         xml2::read_html() %>%
-        rvest::html_nodes("#municipios > option")
+        rvest::html_nodes("#municipio > option")
     
     cod_municipio <- list_tcm_municipios %>%
         rvest::html_attr("value")
