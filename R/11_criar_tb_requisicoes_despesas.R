@@ -38,7 +38,7 @@ parser_arq_html_pags <- function(id, ano, cod_municipio, nm_municipio,
     
     nm_entidade <- limpar_nome(nm_entidade)
     
-    subdir_resp_html_pag_entidade <- file.path("resposta_scraping_html",
+    subdir_resp_html_pag_entidade <- file.path("resposta_scraping_links",
                                                nm_municipio,
                                                nm_entidade
                                                )
