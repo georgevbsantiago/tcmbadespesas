@@ -5,6 +5,7 @@
 #' 
 #' @importFrom magrittr %>%
 #' 
+#' @export
 
 executar_scraping_html_despesas <- function(sgbd) {
 

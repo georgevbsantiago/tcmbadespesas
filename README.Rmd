@@ -157,21 +157,9 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 #!!! Implementar uma rotina para evitar timeout nos Webs Scrapings que estão
 #    contidos nas funções 'criar_tb_dmunicipios_entidades' e 'criar_tb_dmunicipios'
 
-#!!! Desenvolver o Packrat do Web Scraping;
-#!!! Implantar o Docker do RStudio com o Packrat do Web Scraping;
-#!!! Criar usuários com mesmas permissões e acesso a pastas
-
-#!!! Definir a melhor forma de encademaneto na execução das funções primárias para
-#    iniciar e continuar o Web Scraping. Além disso, estabelecer rotinas de check no momento de 
-#    fazer o input do anos_alvos e cod_municipio
-#!!! Finalizar o Código para que se torne automatizado com o CronR/CronTab
-#    http://leg.ufpr.br/~walmes/ensino/web-scraping/li%C3%A7%C3%B5es/13-crontab/
-
 #!!! Documentar todo o código;
-#!!! Desenvolver um Pacote R para o Web Scraping do TCM-Ba. Incluir uma tabela com o código e nome
-#    dos municípios e entidades municipais
 
-#!!! Implementar um API com o pacote 'Plumber';
+#!!! Implementar um ChatBot pelo Telegram com o pacote 'Plumber';
 
 
 -------------------------------------------------------------------------------------
@@ -182,59 +170,23 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 #In addition: Warning message:
 #call dbDisconnect() when finished working with a connection 
 #= É um erro provocado por uma função do pacote xml2 (função 'write_html.xml_missing').... Verificar também se esse erro não está ligado à condicional NOT NULL na tabela de requisições
-
-
-# [1] "Web Scraping das páginas_links das entidades alvos finalizado!"
-# Warning message:
-# In dir.create(file.path("resposta_scraping_links", nm_municipio,  :
-#   'resposta_scraping_links/ITABUNA/EMPRESA MUNICIPAL DE AGUA E SANEAMENTO SA ITABUNA' already exists
-
-#---------------------
 # [1] "Scraping - Ano: 2016 - Pág: 16 - Doc: 364 - Valor: 478.4 - CAMARA MUNICIPAL DE SANTO AMARO"
 # [1] "Scraping - Ano: 2016 - Pág: 16 - Doc: 365 - Valor: 2000.0 - CAMARA MUNICIPAL DE SANTO AMARO"
 # Error: Missing data cannot be written
-#----------------------
-# #### Erro: 'Timeout' da Primeira tentativa para: 2013-347-pag_196_.html - doc: 01891-13 ####
-# #### Iniciando Segunda tentativa para: 2013-347-pag_196_.html - doc: 01891-13 ...
-# Error: Missing data cannot be written
 
-# [1] "Scraping - Ano: 2018 - Pág: 477 - Doc: 5042 - Valor: 50.96 - PREFEITURA MUNICIPAL DE PAULO AFONSO"
-# [1] "Scraping - Ano: 2018 - Pág: 477 - Doc: 5039 - Valor: 20607.87 - PREFEITURA MUNICIPAL DE PAULO AFONSO"
-# [1] "Scraping - Ano: 2018 - Pág: 477 - Doc: 5047 - Valor: 1141.14 - PREFEITURA MUNICIPAL DE PAULO AFONSO"
-# Error: Missing data cannot be written
-
-# [1] "Scraping - Ano: 2018 - Pág: 394 - Doc: 00554-18-FUNDEB - Valor: 515759.43 - PREFEITURA MUNICIPAL DE EUNAPOLIS"
-# [1] "Scraping - Ano: 2018 - Pág: 1690 - Doc: 30792018 - Valor: 6195.2 - PREFEITURA MUNICIPAL DE SALVADOR"
-# #### Erro: 'Timeout' da Primeira tentativa para: 2018-334-pag_1690_.html - doc: 17282018 ####
-# #### Iniciando Segunda tentativa para: 2018-334-pag_1690_.html - doc: 17282018 ...
-# Error: Missing data cannot be written
-
-# [1] "Parser: 2018-535-pag_12_.html - CAMARA MUNICIPAL DE DOM MACEDO COSTA"
-# [1] "Tabela de requisições criada com sucesso"
-# Warning message:
-# call dbDisconnect() when finished working with a connection 
+# !!! Erro intermitente:
+# Error in (function (classes, fdef, mtable)  : 
+# unable to find an inherited method for function ‘dbWriteTable’ for signature ‘"SQLiteConnection", "character"
 
 
-
-
-# In addition: Warning message:
-# call dbDisconnect() when finished working with a connection 
-#----------------------
-# Warning message:
-# In dir.create(file.path("resposta_scraping_links", nm_municipio,  :
-#   'resposta_scraping_links/ITABUNA/EMPRESA MUNICIPAL DE AGUA E SANEAMENTO SA ITABUNA' already exists
-#----------------------
 
 
 
 # MELHORIAS
 #!!! Criar 3 Banco de Dados. OLTP - Para o Web Scraping; Data Stage Area - Para os Dados Extraídos dos arquivos HMTL de Despesas; 4 - Data WareHouse - Para conectar ao Power BI
-#!!! Na função 'executar_csv_googledrive', será preciso armazenar as ID dos arquivos numa tabela após o upload para poder viabilziar o update posteriormente Ou usar alguma outra estratégia ou função do pacote googledrive para nao duplicar os arquivos na pasta;
-#!!! Na função 'executar_tidy_data', substituir os "-" que aparecem em 'fonte_de_recurso_tcm' e 'fonte_de_recurso_gestor' pelos valores que estão em "fonte_de_recurso_tcm_2" e 'fonte_de_recurso_gestor_2'
+
 #!!! Procurar uma solução no pacote dplyr ou tibble para o 'armengue' feito na função 'criar_tb_entidades_alvos_paginas' com a função merge.data.frame e verificar se há um método de filtro no dplyr::filter, para que não seja necessário criar a coluna 'filtro'
-#!!! Criar um loop na função 'executar_scraping_html_despesas()' para que ele rode o script X vezes até reduzir o número de casos de request com "N"
-#!!! Aplicar a função para obter o HASH do HTML somente no nó que coném os dados do web scraping. Não dá para aplicar a todo HTML, pois o cabeçalho muda a cada requisição, alterando sempre o código do hash, ainda que o conteúdo do nó seja igual
-#!!! Verificar se é possível separar %in% por any() . Ex: 'any(x == 10)' é muito mais rápido que '10 %in% x' . Se você quiser ver se um vetor contém um único valor
+
 #!!! Retirar a condição 'AUTOINCREMENT' no campo de criação das tabelas, conforme sugerido na documentação no SQLite
 #!!! Criar 3 Banco de Dados. OLTP - Para o Web Scraping; Data Stage Area - Para os Dados Extraídos dos arquivos HMTL de Despesas; 4 - Data WareHouse - Para conectar ao Power BI
 
@@ -242,16 +194,13 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 # IMPLEMENTAÇÕES
 # NO CÓDIGO
 #!!! Colocar uma condição IF para pausar requisições entre 5h30 a 6h00
-#!!! Paralelizar requisições e o tratamento de dados com o pacote `furrr` ou com a função abjutils::pvec() ;
 
-#!!! Implementar um API com o pacote 'Plumber';
 #!!! Gerar 'alertas' sobre os pagamentos para publicar no Facebook, Telegram ou Facebook
 #    Ex: Despesas de festas em perídos não festivos; Ou emitir relatório resumido na forma de imagem
 #    para ser enviado via Telegram, após obter os dados completos do mês;
 #!!! Integrar o R com o Telegram
 # https://blog.datascienceheroes.com/get-notify-when-an-r-script-finishes-on-telegram/
 
-#!!! Adequar o código para aceitar conexão com o MySQL, PostgreSQL e MongoDB;
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # NA INFRAESTRUTURA
 #...
