@@ -17,6 +17,10 @@ executar_scraping_num_pags <- function(sgbd) {
 
 
     print("Iniciando Web Scraping das páginas_links das entidades alvos!")
+    
+    # !!! Analisar a inclusão desta rotina aqui, em vez de na funcao scraping_num_pags
+    # Inserir tb_pag_links dentro de purrr::pwalk()
+    #tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
 
 
     purrr::pwalk(entidades_alvos, scraping_num_pags, sgbd)
