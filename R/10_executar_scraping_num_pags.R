@@ -14,14 +14,9 @@ executar_scraping_num_pags <- function(sgbd) {
     entidades_alvos <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_entidades_alvos_paginas")
 
     DBI::dbDisconnect(connect_sgbd(sgbd))
-
-
+    
     print("Iniciando Web Scraping das páginas_links das entidades alvos!")
     
-    # !!! Analisar a inclusão desta rotina aqui, em vez de na funcao scraping_num_pags
-    # Inserir tb_pag_links dentro de purrr::pwalk()
-    #tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
-
 
     purrr::pwalk(entidades_alvos, scraping_num_pags, sgbd)
 
@@ -59,6 +54,11 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
     if (dir.exists(subdir_resp_html_pag_entidade) == FALSE) {
         dir.create(subdir_resp_html_pag_entidade)
     }
+    
+    # Tabela que será utilizada durante o loop para identificar as páginas que já foram raspadas.
+    tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
+    
+    DBI::dbDisconnect(connect_sgbd(sgbd))
 
 
     repeat {
@@ -77,7 +77,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         # Grava a hora e data da requisição para ser incluída no arquivo HMTL e no BD
         log_request <- log_data_hora()
 
-# teste de timeout ---------------------------------------------------------------------------------
+# Teste de timeout ---------------------------------------------------------------------------------
         
         # Verifica houve timeout. Se sim, esperar 10 segundos e tentar novamente.
         if (is.null(scraping_tcm_paginas$result) == TRUE) {
@@ -135,13 +135,16 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
         }
 
-# -----------------------------------------------------------------------------------------------------
+# Parser no HTML-----------------------------------------------------------------------------------------------------
         
+        parser_html_tabela <- scraping_tcm_paginas$result %>%
+                              xml2::read_html() %>%
+                              rvest::html_node("#tabelaResultado")
+        
+# Verificação 1 -----------------------------------------------------------------------------------------------------    
         
         # Variável que será utilizada para verificar se há ou não tabela na página html
-        verificador_tabela <- scraping_tcm_paginas$result %>%
-                              xml2::read_html() %>%
-                              rvest::html_node("#tabelaResultado") %>%
+        verificador_tabela <- parser_html_tabela %>% 
                               length()
 
         # Verifica se há tabela na página html
@@ -153,12 +156,11 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
         }
 
-# -----------------------------------------------------------------------------------------------------
+# Verificação 2 -----------------------------------------------------------------------------------------------------
+        
         # Verifica se há tabela, pelo seu tamanho, no HTML.
         # Servirá como gatilho de parar o repeat quando chegar na última página
-        gatinho_to_break <- scraping_tcm_paginas$result %>%
-                            xml2::read_html() %>%
-                            rvest::html_node("#tabelaResultado") %>%
+        gatinho_to_break <- parser_html_tabela %>%
                             rvest::html_table() %>%
                             .$Documento %>%
                             length()
@@ -172,14 +174,12 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
         }
 
-# -----------------------------------------------------------------------------------------------------
-        # Gera o nome do arquivo HTML
+# Verificação 3 -----------------------------------------------------------------------------------------------------
+        
+        # Verifica se a requisição já consta no BD
+        
         nm_arq_html_pag <- paste0(ano, "-", cod_entidade,
                                   "-pag_", pagina, "_", ".html")
-
-        tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
-
-        DBI::dbDisconnect(connect_sgbd(sgbd))
 
 
 
@@ -192,14 +192,14 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
         }
 
-
+        
+# Salvar HTML-----------------------------------------------------------------------------------------------------
+        
         if (nm_arq_html_pag %in% tb_pag_links$nm_arq_html_pag & gatinho_to_break == 20) {
 
                     print(paste0("Scraping - ", nm_entidade, " - ", ano," - Página: ", pagina, "- Continuação"))
         
-                    pegar_paginas <- scraping_tcm_paginas$result %>%
-                                     xml2::read_html() %>%
-                                     rvest::html_nodes("#tabelaResultado") %>%
+                    pegar_paginas <- parser_html_tabela %>%
                                      xml2::write_html(file.path(subdir_resp_html_pag_entidade,
                                                                 nm_arq_html_pag))
         
@@ -237,9 +237,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         } else {
     
     
-                    pegar_paginas <- scraping_tcm_paginas$result %>%
-                                     xml2::read_html() %>%
-                                     rvest::html_nodes("#tabelaResultado") %>%
+                    pegar_paginas <- parser_html_tabela %>%
                                      xml2::write_html(file.path(subdir_resp_html_pag_entidade,
                                                                 nm_arq_html_pag))
         

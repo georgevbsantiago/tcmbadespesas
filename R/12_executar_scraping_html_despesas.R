@@ -89,7 +89,9 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
     scraping_html <- scraping_html_purrr(link_despesa, httr::timeout(35))
 
     log_request <- log_data_hora()
+    
 
+# Teste de timeout ---------------------------------------------------------------------------------
 
     # Verifica houve timeout. Se sim, esperar 20 segundos e tentar novamente.
     if (is.null(scraping_html$result) == TRUE) {
@@ -109,17 +111,6 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                         sgbd = sgbd
                         )
             
-            # tb_request <- tibble::tibble(
-            #     log_erro = "timeout - primeira tentativa",
-            #     time = log_request,
-            #     foreign_key = id,
-            #     nm_entidade = nm_entidade,
-            #     pagina = pagina,
-            #     documento = documento,
-            #     arquivo_html = "",
-            #     link = link_despesa
-            # )
-    
             message("#### Iniciando Segunda tentativa para: ",
                     nm_arq_html_pag, " - doc: ", documento, " ...")
     
@@ -157,6 +148,7 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
 
     }
 
+# Teste de erro 404 ---------------------------------------------------------------------------------
 
     # Verifica se há erro de querisição 404. Se sim, grava o erro numa tabela de log no BD.
     if (scraping_html$result$status_code == 404) {
@@ -182,11 +174,44 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
 
     }
 
+    
+# Parser no HTML----------------------------------------------------------------------------------------------------- 
 
-    # Realiza um teste no HTML para saber se os dados estão completos, ou se houve erro durante a resposta do TCM
+    # Realiza um teste no parser do HTML para certificar que o resultado não é NULO.
+    parser_html_safely <- purrr::safely(xml2::read_html)
+    
+    
     # scraping_html$result é proveniente da função 'scraping_html_purrr'
-    teste_html_despesas <- scraping_html$result %>%
-                           xml2::read_html() %>%
+    parser_html_despesas <- scraping_html$result %>%
+                            parser_html_safely()
+        
+    
+# Verificação 1 ----------------------------------------------------------------------------------------------------- 
+    
+    if (is.null(parser_html_despesas$result) == TRUE) { 
+        
+        gravar_erro(log_request = log_request,
+                    nm_log_erro = "Parser do HTML retornou NULO",
+                    entrada = scraping_html,
+                    id = id,
+                    cod_entidade = cod_entidade,
+                    nm_entidade = nm_entidade,
+                    ano = ano,
+                    mes = "-",
+                    outros = link_despesa,
+                    sgbd = sgbd
+                    )
+        
+        
+        return(message("### O parser no HTML ", nm_arq_html_pag, " - doc: ",
+                       documento, "retornou NULO. Tentar mais tarde. ###"))
+        
+    }
+
+# Verificação 2 -----------------------------------------------------------------------------------------------------
+    
+    # Realiza um teste no HTML para saber se os dados estão completos, ou se houve erro durante a resposta do TCM
+    teste_html_despesas <- parser_html_despesas$result %>%     
                            rvest::html_nodes("label+ span") %>%
                            rvest::html_text() %>%
                            stringr::str_trim()
@@ -204,23 +229,11 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                                           "-pag_", pagina, "-doc_", documento,
                                           "-val_", valor_documento, "_.html")
     
-            pegar_arquivo_html_log <- scraping_html$result %>%
-                                      xml2::read_html() %>%
+            pegar_arquivo_html_log <- parser_html_despesas$result %>%
                                       rvest::html_node("div.col-xs-12.content.padding_content") %>%
                                       xml2::write_html(file.path("log_html", nm_arquivo_html_log))
     
     
-            # tb_request <- tibble::tibble(
-            #     log_erro = "HTML de despesa incompleto",
-            #     time = log_request,
-            #     foreign_key = id,
-            #     nm_entidade = nm_entidade,
-            #     pagina = pagina,
-            #     documento = documento,
-            #     arquivo_html = nm_arquivo_html_log,
-            #     link = link_despesa
-            # )
-            
             gravar_erro(log_request = log_request,
                         nm_log_erro = "HTML de despesa incompleto",
                         entrada = scraping_html,
@@ -236,7 +249,9 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
     
             return(message("### O HTML ", nm_arq_html_pag, " - doc: ",
                            documento, " não está com informações completas. Tentar mais tarde. ###"))
+            
 
+# Salvar HTML-----------------------------------------------------------------------------------------------------
 
         # Se tudo estiver OK com a requisição e com o arquivo HTML, então executa esse bloco de código.
     } else {
@@ -258,8 +273,7 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
     
     
             # scraping_html$result é proveniente da função 'scraping_html_purrr'
-            pegar_html_despesas <- scraping_html$result %>%
-                                   xml2::read_html() %>%
+            pegar_html_despesas <- parser_html_despesas$result %>%
                                    rvest::html_node("div.col-xs-12.content.padding_content") %>%
                                    xml2::write_html(file.path(subdir_resp_html_desp_entidade,
                                                               nome_arquivo_html))
