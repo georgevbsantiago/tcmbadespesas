@@ -229,12 +229,8 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                                           "-pag_", pagina, "-doc_", documento,
                                           "-val_", valor_documento, "_.html")
     
-            pegar_arquivo_html_log <- parser_html_despesas$result %>%
-                                      rvest::html_node("div.col-xs-12.content.padding_content") %>%
-                                      xml2::write_html(file.path("log_html", nm_arquivo_html_log))
-    
-    
-            gravar_erro(log_request = log_request,
+            gravar_erro(
+                        log_request = log_request,
                         nm_log_erro = "HTML de despesa incompleto",
                         entrada = scraping_html,
                         id = id,
@@ -245,6 +241,11 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                         outros = link_despesa,
                         sgbd = sgbd
                         )
+            
+            
+            pegar_arquivo_html_log <- parser_html_despesas$result %>%
+                                      rvest::html_node("div.col-xs-12.content.padding_content") %>%
+                                      xml2::write_html(file.path("log_html", nm_arquivo_html_log))
     
     
             return(message("### O HTML ", nm_arq_html_pag, " - doc: ",
