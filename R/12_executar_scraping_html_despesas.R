@@ -228,6 +228,10 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
             nm_arquivo_html_log <- paste0("log_", ano, "-", cod_entidade,
                                           "-pag_", pagina, "-doc_", documento,
                                           "-val_", valor_documento, "_.html")
+            
+            nm_arquivo_html_log_rds <- paste0("log_", ano, "-", cod_entidade,
+                                          "-pag_", pagina, "-doc_", documento,
+                                          "-val_", valor_documento, "_.rds")
     
             gravar_erro(
                         log_request = log_request,
@@ -243,6 +247,11 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                         )
             
             
+            pegar_arquivo_html_log_rds <- parser_html_despesas$result %>%
+                                          rvest::html_node("div.col-xs-12.content.padding_content") %>%
+                                          saveRDS(file.path("log_html", nm_arquivo_html_log_rds))
+               
+
             pegar_arquivo_html_log <- parser_html_despesas$result %>%
                                       rvest::html_node("div.col-xs-12.content.padding_content") %>%
                                       xml2::write_html(file.path("log_html", nm_arquivo_html_log))
