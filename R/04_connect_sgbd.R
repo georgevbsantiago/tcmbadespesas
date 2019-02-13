@@ -72,10 +72,10 @@ connect_sgbd <- function(sgbd = "sqlite") {
             tibble::tibble(data_time = log_data_time,
                            nm_log_erro = "Erro ao acesso o SQLite",
                            sgbd = "sqlite") %>%
-                readr::write_delim(file.path("bd_sqlite",
-                                             "log_sgbd.csv"),
-                                   delim = ";",
-                                   append = TRUE)
+            readr::write_delim(file.path("bd_sqlite",
+                                         "log_sgbd.csv"),
+                               delim = ";",
+                               append = TRUE)
             
             # Tentar novamente a conexão com o BD
             sqlite_bd <- conexao_segura_sqlite(RSQLite::SQLite(),
