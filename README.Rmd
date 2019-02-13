@@ -157,36 +157,26 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 # PRIORIDADES
 #!!! Documentar todo o código;
 
-#!!! Implementar uma rotina para evitar timeout nos Webs Scrapings que estão
-#    contidos nas funções 'criar_tb_dmunicipios_entidades' e 'criar_tb_dmunicipios'
-
 #!!! Implementar um ChatBot pelo Telegram com o pacote 'Plumber';
 
 
 -------------------------------------------------------------------------------------
 
 # BUG:
-#!!! Error: Missing data cannot be written (esse erro está aparecendo depois de milhares requisições)
-#Error: Missing data cannot be written 
-#In addition: Warning message:
-#call dbDisconnect() when finished working with a connection 
-#= É um erro provocado por uma função do pacote xml2 (função 'write_html.xml_missing').... Verificar também se esse erro não está ligado à condicional NOT NULL na tabela de requisições
-# [1] "Scraping - Ano: 2016 - Pág: 16 - Doc: 364 - Valor: 478.4 - CAMARA MUNICIPAL DE SANTO AMARO"
-# [1] "Scraping - Ano: 2016 - Pág: 16 - Doc: 365 - Valor: 2000.0 - CAMARA MUNICIPAL DE SANTO AMARO"
-# Error: Missing data cannot be written
 
 # !!! Erro intermitente:
 # Error in (function (classes, fdef, mtable)  : 
 # unable to find an inherited method for function ‘dbWriteTable’ for signature ‘"SQLiteConnection", "character"
 
-# !! Tratar esse aviso (abaixo). Provavelmente, ocorre durante a aplicação da função separete na execução do padrão tidy data
+# !!! Tratar esse aviso (abaixo). Provavelmente, ocorre durante a aplicação da função separete na execução do padrão tidy data
 # 
 # 1: Expected 2 pieces. Missing pieces filled with `NA` in 11 rows [153, 552, 553, 674, 1064, 1065, 1066, 2800, 3001, 3687, 3688]. 
 # 2: Expected 2 pieces. Missing pieces filled with `NA` in 11 rows [153, 552, 553, 674, 1064, 1065, 1066, 2800, 3001, 3687, 3688]. 
 
 
 # MELHORIAS
-#!!! Carregar 'tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")' antes do loop com o purrr
+#!!! Implementar uma rotina para evitar timeout nos Webs Scrapings que estão
+#    contidos nas funções 'criar_tb_dmunicipios_entidades' e 'criar_tb_dmunicipios'
 
 #!!! Desenvolver uma nova lógica para a função "executar_scraping_num_pags"
 
@@ -199,8 +189,6 @@ Vejamos a baixo alguns dos parâmetros que podemos utilizar com ele:
 #                                              tb_municipios_alvos_novos) %>%
 
 #!!! Criar 3 Banco de Dados. OLTP - Para o Web Scraping; Data Stage Area - Para os Dados Extraídos dos arquivos HMTL de Despesas; 4 - Data WareHouse - Para conectar ao Power BI
-
-#!!! Procurar uma solução no pacote dplyr ou tibble para o 'armengue' feito na função 'criar_tb_entidades_alvos_paginas' com a função merge.data.frame e verificar se há um método de filtro no dplyr::filter, para que não seja necessário criar a coluna 'filtro'
 
 #!!! Retirar a condição 'AUTOINCREMENT' no campo de criação das tabelas, conforme sugerido na documentação no SQLite
 
