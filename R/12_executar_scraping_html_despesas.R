@@ -174,6 +174,35 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
 
     }
 
+# Teste de erro 500 ---------------------------------------------------------------------------------
+    
+    # Verifica se há erro de querisição 500. Se sim, grava o erro numa tabela de log no BD.
+    if (scraping_html$result$status_code == 500) {
+        
+        gravar_erro(log_request = log_request,
+                    nm_log_erro = "erro - 500",
+                    entrada = scraping_html,
+                    id = id,
+                    cod_entidade = cod_entidade,
+                    nm_entidade = nm_entidade,
+                    ano = ano, 
+                    mes = "-",
+                    outros = link_despesa,
+                    sgbd = sgbd
+                    )
+        
+        
+        message("#### Erro 500 de Requisição para: ",
+                nm_arq_html_pag, " - doc: ", documento,
+                " - Pausa de 70 segundos")
+        
+        Sys.sleep(70)
+        
+        # Parar a iteração e pular para a próxima requisição.
+        return(message("#### Pulando para o próximo link de desepesa ####"))
+        
+        
+    }
     
 # Parser no HTML----------------------------------------------------------------------------------------------------- 
 
@@ -229,10 +258,6 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                                           "-pag_", pagina, "-doc_", documento,
                                           "-val_", valor_documento, "_.html")
             
-            nm_arquivo_html_log_rds <- paste0("log_", ano, "-", cod_entidade,
-                                          "-pag_", pagina, "-doc_", documento,
-                                          "-val_", valor_documento, "_.rds")
-    
             gravar_erro(
                         log_request = log_request,
                         nm_log_erro = "HTML de despesa incompleto",
