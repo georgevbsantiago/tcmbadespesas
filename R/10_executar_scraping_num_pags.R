@@ -60,7 +60,10 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
     
     DBI::dbDisconnect(connect_sgbd(sgbd))
 
-
+    
+# Início do Web Scraping ---------------------------------------------------------------------------
+    
+    
     repeat {
 
 

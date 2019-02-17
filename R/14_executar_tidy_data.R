@@ -92,7 +92,7 @@ executar_tidy_data <- function(sgbd) {
         dplyr::mutate_at(c("data_do_pagamento",
                            "data_empenho"),
                          ~lubridate::dmy(.)) %>%
-        dplyr::mutate_at(fase:declaracao,
+        dplyr::mutate_at(dplyr::vars(fase:declaracao),
                          ~stringr::str_to_upper(.)) %>%
         dplyr::mutate_all(~stringr::str_trim(.)) %>%
         dplyr::mutate_all(~stringi::stri_trans_general(., "latin-ascii"))
