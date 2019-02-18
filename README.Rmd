@@ -30,7 +30,7 @@ No caso do Observatório Social de Santo Antônio de Jesus, esses dados serão u
 
 ## Etapas e Estratégias do Web Scraping
 
-Como citado no material disponibilizado pelo do Curso-R [link](https://www.curso-r.com/material/webscraping/), há 4 (quatro) tipos de "macro 'desafios' de Web Scraping" que exigem estratégias e técnicas distintas, a saber:
+Como citado no material disponibilizado pelo do [Curso-R](https://www.curso-r.com/material/webscraping/), há 4 (quatro) tipos de "macro 'desafios' de Web Scraping" que exigem estratégias e técnicas distintas, a saber:
 
 * Uma busca e uma paginação;
 * Uma busca e muitas paginações;
