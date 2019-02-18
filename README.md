@@ -1,14 +1,3 @@
-# tcmbadespesas
-
-The goal of tcmbadespesas is to ...
----
-title: "Web Scraping - Despesas dos Municípios do Estado da Bahia, via site do Tribunal de Contas dos Municípios do Estado da Bahia - TCM-Ba"
-author: "George Santiago"
-date: "17 de fevereiro de 2019"
-output: html_document, github_document
-by: keepgrabbing.py - In memory of Aaron Swartz
----
-
 # O Projeto
 
 O pacote `tcmbadespesas` é uma das ferramentas utilizadas no projeto de "Transparência das Contas Públicas", desenvolvido e executado pelo Observatório Social do Brasil - Município de Santo Antônio de Jesus - Estado da Bahia.
