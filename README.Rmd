@@ -205,7 +205,8 @@ devtools::install_github("georgevbsantiago/tcmbadespesas")
 
 library(tcmbadespesas)
 
-setwd("/diretorio/") # Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
+# Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
+setwd("/diretorio/") 
 
 # Sugestão de argumentos para execução do 'Web Scraping' das despesas municipais de ex: Santo Antônio de Jesus ( cód. 2928703), que abrange a Prefeitura Municipal de SAJ, a Câmara Municipal de SAJ e o Consórcio Público Interfederaivo de Saúde RECONVALE. É possível também adicionar outros municípios. Para consultar o código dos municípios, foi disponibilizado uma tabela por meio da função `tcmbadespesas::tcm_cod_municipios` que armazena os códigos dos municípios extraídos do site do TCM-Ba. Ademais, para saber o propósito de cada argumento, favor consultar a documentação do `tcmbadespesas`por meio do comando `?tcmbadespesas::executar_web_scraping` .
 
