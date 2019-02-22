@@ -136,6 +136,11 @@ Entretanto, registramos os seguintes tópicos para relatar: Prioridades, Bugs, M
 # 2: Expected 2 pieces. Missing pieces filled with `NA` in 11 rows [153, 552, 553, 674, 1064, 1065, 1066, 2800, 3001, 3687, 3688]. 
 
 
+# Error in file.path("log_html", nm_arquivo_html_log_rds) : 
+#   object 'nm_arquivo_html_log_rds' not found
+# In addition: Warning message:
+# call dbDisconnect() when finished working with a connection 
+
 ### MELHORIAS
 
 #!!! Implementar paralelismo (multi-threading) para acelerar as requisicções HTTP e o tratamento dos dados, ou, ainda, permitir a execucação das requisições e o tratamento de dados em paralelo. Contudo, isso depende do pacote 'furrr' que apesar de ter a função 'furrr::pwalk' já disponível na versão do pacote de desenvolvimento no GitHub, ainda não está disponível no CRAN. Em último caso, poderíamos tentar a implementação da função 'furrr::pmap', mas isso ainda depende de testes a serem realizados. Outra possibilidade é usar a nova funcionalidade do RStudio 1.2 (Preview) que permite executar Jobs em segundo plano.
@@ -222,7 +227,7 @@ tcmbadespesas::executar_web_scraping(nome_scraping = "ws_tcmba_despesas",
 
 Na hipótese do usuário preferir contratar um servidor numa infraestrutura de nuvem (ex: DigitalOcean, Microsoft Azure, Amazon Web Service), indicamos, a seguir, algumas dicas e condigurações para implementação do RStudio via Docker.
 
-Nesta sugestão de configuração via VPS na DigitalOcean usando Docker, realizamos a instalação do Cointainer do Projeto Rocker [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa: Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes sobre a configuração de implementação do "droplet" (nomenclatura de 'servidor' na DigitalOcean). Uma das fontes de consulta utilizadas foi o post: [post com instruções detalhadas no capítulo: 'Run on a remote server'](https://www.andrewheiss.com/blog/2017/04/27/super-basic-practical-guide-to-docker-and-rstudio/) .
+Nesta sugestão de configuração via VPS na DigitalOcean usando Docker, realizamos a instalação do Cointainer do Projeto Rocker [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa: Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes sobre a configuração de implementação do "droplet" (nomenclatura de 'servidor' na DigitalOcean). Uma das fontes de consulta utilizadas foi o post: ['Run on a remote server'](https://www.andrewheiss.com/blog/2017/04/27/super-basic-practical-guide-to-docker-and-rstudio/) .
 
 As demais configurações sobre o 'Volume' (conceito do Docker que significa a pasta - diretório - compartilhado entre o 'container' Docker e o Host 'servidor') e as configurações de permissão para criação, leitura e escrita do diretório 'os_saj_web_scraping' foram obtidos por meio de consulta no Google. OBS: A configuração de escrita no diretório 'os_saj_web_scraping', que será utilizado como diretório de trabalho do 'Web Scraping', foi necessário, pois caso não seja realizado, o RStudio retorna um erro que informa a impossibilidade de escrever/gravar/salvar os arquivos no diretório selecionado para ser o 'Volume'.
 
