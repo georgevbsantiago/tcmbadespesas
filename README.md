@@ -32,7 +32,7 @@ Como citado no material disponibilizado pelo do [Curso-R](https://www.curso-r.co
 
 Os dois primeiros "macro desafios de Web Scraping" são os mais "fáceis", não exigindo maiores técnicas ou estratégias, especificamente no controle das requisição das páginas HTML. Já os dois últimos, podem representar grandes desafios no desenvolvimento do "Web Scraping", em especial no controle das requisição das páginas HTML, a depender, por exemplo: _i)_ do volume (quantidade) de requisições a serem realizadas; _ii)_ de como o Servidor requisitado se comporta com o crescente número de requisições; _iii)_ das estratégias de controle a serem adotadas para não obter dados duplicados ou "esquecer" de raspar determinadas páginas; _iv)_ da infraestrutura que será utilizada para executar o Web Scraping... dentre outros desafios enfrentados a depender do caso concreto.
 
-No caso do "Web Scraping" em apreço, estremos enfrentado o Web Scraping de maior desafio técnico *Muitas buscas e muitas paginações por busca*, pelo menos do ponto de vista da arquitetura de execução do código.
+No caso do "Web Scraping" em apreço, estaremos enfrentado o Web Scraping de maior desafio técnico *Muitas buscas e muitas paginações por busca*, pelo menos do ponto de vista da arquitetura de execução do código.
 
 A título de exemplo, ao analisar a quantidade de requisições das despesas de 25 municípios do Estado da Bahia (de uma total de 417) somente do ano de 2018, chegamos ao número aproximado de 280.000 requisições ao site do TCM-Ba! Isso se deve ao "caminho" a ser percorrido até chegar na página HTML com os dados detalhados da respectiva despesa. Para sintetizar o desafio, foi preciso percorrer 02 (duas) macro etapas: 1) Acessar, via requisição POST, as páginas que disponibilizavam as tabelas com os dados sumarizados das despesas do respectivo Ente Municipal (aqui, o desafio foi acessar a primeira página e pecorrer até a última, já que cada página somente disponibilizava 20 linhas de dados); 2) Acessar, via requisição GET, cada link disponibilizado nas páginas acessadas (as quais continham as tabela sumarizada) para chegar ao conteúdo detalhamento das despesas.
 
@@ -197,7 +197,8 @@ devtools::install_github("georgevbsantiago/tcmbadespesas")
 
 library(tcmbadespesas)
 
-setwd("/diretorio/") # Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
+# Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
+setwd("/diretorio/") 
 
 # Sugestão de argumentos para execução do 'Web Scraping' das despesas municipais de ex: Santo Antônio de Jesus ( cód. 2928703), que abrange a Prefeitura Municipal de SAJ, a Câmara Municipal de SAJ e o Consórcio Público Interfederaivo de Saúde RECONVALE. É possível também adicionar outros municípios. Para consultar o código dos municípios, foi disponibilizado uma tabela por meio da função `tcmbadespesas::tcm_cod_municipios` que armazena os códigos dos municípios extraídos do site do TCM-Ba. Ademais, para saber o propósito de cada argumento, favor consultar a documentação do `tcmbadespesas`por meio do comando `?tcmbadespesas::executar_web_scraping` .
 
