@@ -1,3 +1,9 @@
+Web Scraping - Despesas dos Municípios do Estado da Bahia, via site do
+Tribunal de Contas dos Municípios do Estado da Bahia - TCM-Ba
+================
+George Santiago
+17 de fevereiro de 2019
+
 # O Projeto
 
 O pacote `tcmbadespesas` é uma das ferramentas utilizadas no projeto de "Transparência das Contas Públicas", desenvolvido e executado pelo Observatório Social do Brasil - Município de Santo Antônio de Jesus - Estado da Bahia.
@@ -188,7 +194,7 @@ Entretanto, registramos os seguintes tópicos para relatar: Prioridades, Bugs, M
 
 ## Infraestrutura
 
-Caso o usuário deseje executar o  "Web Scraping" do seu computador pessoas, precisará apensas seguir a sugestão de nomenclattura dos arguimentos abaixo:
+Caso o usuário deseje executar o  "Web Scraping" do seu computador pessoal, precisará apensas seguir a sugestão de nomenclattura dos arguimentos abaixo:
 
 ```{r eval=FALSE, include=FALSE}
 

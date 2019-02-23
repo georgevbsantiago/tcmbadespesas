@@ -2,7 +2,7 @@
 title: "Web Scraping - Despesas dos Municípios do Estado da Bahia, via site do Tribunal de Contas dos Municípios do Estado da Bahia - TCM-Ba"
 author: "George Santiago"
 date: "17 de fevereiro de 2019"
-output: html_document, github_document
+output: github_document
 by: keepgrabbing.py - In memory of Aaron Swartz
 ---
 
@@ -196,7 +196,7 @@ Entretanto, registramos os seguintes tópicos para relatar: Prioridades, Bugs, M
 
 ## Infraestrutura
 
-Caso o usuário deseje executar o  "Web Scraping" do seu computador pessoas, precisará apensas seguir a sugestão de nomenclattura dos arguimentos abaixo:
+Caso o usuário deseje executar o  "Web Scraping" do seu computador pessoal, precisará apensas seguir a sugestão de nomenclattura dos arguimentos abaixo:
 
 ```{r eval=FALSE, include=FALSE}
 
