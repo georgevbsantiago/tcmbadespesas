@@ -34,9 +34,6 @@ exportar_csv_dropbox <- function(exportar_nuvem = "NAO") {
     arquivos_csv <- file.path("dados_exportados",
                               "tabela_despesas_municipais_tidy_data_BR.csv")
 
-    message(paste("Compressão de", length(lista_arquivos_csv),
-                  "arquivos CSV. Esse processo pode levar alguns minutos"))
-
     zip::zip(nome_arquivo_zip, arquivos_csv,
              recurse = FALSE, compression_level = 9)
 
