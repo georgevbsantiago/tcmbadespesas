@@ -76,6 +76,15 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
         # Grava a hora e data da requisição para ser incluída no arquivo HMTL e no BD
         log_request <- log_data_hora()
+        
+        
+        nm_arq_html_pag <- paste0(ano, "-", cod_entidade,
+                                  "-pag_", pagina, "_", ".html")
+        
+        # Tabela que será utilizada durante o loop para identificar as páginas que já foram raspadas.
+        tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
+        
+        DBI::dbDisconnect(connect_sgbd(sgbd))
 
 # Teste de timeout ---------------------------------------------------------------------------------
         
@@ -178,16 +187,6 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         
         # Verifica se a requisição já consta no BD
         
-        nm_arq_html_pag <- paste0(ano, "-", cod_entidade,
-                                  "-pag_", pagina, "_", ".html")
-        
-        # Tabela que será utilizada durante o loop para identificar as páginas que já foram raspadas.
-        tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
-        
-        DBI::dbDisconnect(connect_sgbd(sgbd))
-
-
-
         if (nm_arq_html_pag %in% tb_pag_links$nm_arq_html_pag & gatinho_to_break < 20) {
 
 
