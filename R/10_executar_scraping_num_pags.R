@@ -55,10 +55,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         dir.create(subdir_resp_html_pag_entidade)
     }
     
-    # Tabela que será utilizada durante o loop para identificar as páginas que já foram raspadas.
-    tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
-    
-    DBI::dbDisconnect(connect_sgbd(sgbd))
+
 
     
 # Início do Web Scraping ---------------------------------------------------------------------------
@@ -183,6 +180,11 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         
         nm_arq_html_pag <- paste0(ano, "-", cod_entidade,
                                   "-pag_", pagina, "_", ".html")
+        
+        # Tabela que será utilizada durante o loop para identificar as páginas que já foram raspadas.
+        tb_pag_links <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_paginas_links")
+        
+        DBI::dbDisconnect(connect_sgbd(sgbd))
 
 
 
