@@ -28,21 +28,13 @@ exportar_csv_dropbox <- function(exportar_nuvem = "NAO") {
     }
     
   
-    nome_arquivo_zip <- file.path("backup",
-                                  "bk_despesas_csv.zip")
-
-    arquivos_csv <- file.path("dados_exportados",
-                              "tabela_despesas_municipais_tidy_data_BR.csv")
-
-    zip::zip(nome_arquivo_zip, arquivos_csv,
-             recurse = FALSE, compression_level = 9)
-
-    print("Arquivo 'bk_despesas_csv.zip' gerado com sucesso!")
-
     # ---------------------------------------------------------------------------
     ####### O DropBox pode ser acessado com um token ou criando uma chave API
 
     # Saiba como gerar o seu Token em: https://github.com/karthik/rdrop2
+  
+    arquivos_csv_gz <- file.path("dados_exportados",
+                                 "tabela_despesas_municipais_tidy_data_BR.csv.gz")
 
 
     if(file.exists("token_dropbox.rds") == FALSE) {
@@ -67,19 +59,19 @@ exportar_csv_dropbox <- function(exportar_nuvem = "NAO") {
     }
 
 
-    print("Iniciando o UPLOAD do arquivo 'bk_arquivos_csv.zip' para o DropBox...")
+    print("Iniciando o UPLOAD do arquivo 'CSV.gz' para o DropBox...")
 
-    rdrop2::drop_upload(nome_arquivo_zip,
+    rdrop2::drop_upload(arquivos_csv_gz,
                         path = dir_arquivo_dropbox,
                         mode = "overwrite",
                         dtoken = token_dropbox)
 
-    print("Backup dos Arquivos (.zip) exportado com sucesso para o DropBox!")
+    print("Backup do arquivo 'CSV.gz' exportado com sucesso para o DropBox!")
 
     # Para realizar o download direto do arquivo, é preciso
     # Alterar o p número (ano final do URL) do 'dl' de 0 para 1
-    # De: https://www.dropbox.com/s/qwvohhrtrz95mzq2/bk_arquivos_csv.zip?dl=0
-    # Para: https://www.dropbox.com/s/qwvohhrtrz95mzq2/bk_arquivos_csv.zip?dl=1
+    # De: https://www.dropbox.com/s/ykxn1twikwpwwie/tabela_despesas_municipais_tidy_data_BR.csv.gz?dl=0
+    # Para: https://www.dropbox.com/s/ykxn1twikwpwwie/tabela_despesas_municipais_tidy_data_BR.csv.gz?dl=1
 
 }
 

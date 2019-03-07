@@ -112,10 +112,10 @@ executar_tidy_data <- function(sgbd) {
 
     readr::write_delim(tb_despesas_municipios,
                        file.path("dados_exportados",
-                                 "tabela_despesas_municipais_tidy_data.csv"),
+                                 "tabela_despesas_municipais_tidy_data.csv.gz"),
                        delim = ";")
 
-    message("Os dados foram colocados no padrão Tidy Data Internacional e salvos em CSV no diretório 'dados_exportados'")
+    message("Os dados foram colocados no padrão Tidy Data Internacional e salvos em CSV compactado (csv.gz) no diretório 'dados_exportados'")
 
 
     tb_despesas_municipios_BR <- tb_despesas_municipios %>%
@@ -127,11 +127,11 @@ executar_tidy_data <- function(sgbd) {
 
     readr::write_delim(tb_despesas_municipios_BR,
                        file.path("dados_exportados",
-                                 "tabela_despesas_municipais_tidy_data_BR.csv"),
+                                 "tabela_despesas_municipais_tidy_data_BR.csv.gz"),
                        delim = ";")
 
 
-    message("Os dados foram colocados no padrão Tidy Data Brasil (R$) e salvos em CSV no diretório 'dados_exportados'")
+    message("Os dados foram colocados no padrão Tidy Data Brasil (R$) e salvos em CSV compactado (csv.gz) no diretório 'dados_exportados'")
 
 
 }
