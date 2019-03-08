@@ -118,10 +118,10 @@ executar_backup_arquivos <- function(backup_local = "SIM",
             
             dir_bk_dropbox <- "web_scraping_tcmba_despesas/backup"
             
-            if(rdrop2::drop_exists(dir_arquivo_dropbox,
+            if(rdrop2::drop_exists(dir_bk_dropbox,
                                    dtoken = token_dropbox) == FALSE) {
                 
-                rdrop2::drop_create(dir_arquivo_dropbox,
+                rdrop2::drop_create(dir_bk_dropbox,
                                     dtoken = token_dropbox)
             }
             
