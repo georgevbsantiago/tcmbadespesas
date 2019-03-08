@@ -120,7 +120,7 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
     
     
             # Segunda tentativa. Se houver timeout novamente, pular para a próxima requisição.
-            scraping_html <- scraping_html_purrr(link_despesa, httr::timeout(35))
+            scraping_html <- scraping_html_purrr(link_despesa, httr::timeout(150))
     
             log_request <- log_data_hora()
     
