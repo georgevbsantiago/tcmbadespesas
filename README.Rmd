@@ -107,13 +107,87 @@ Numa perspectiva de arquitetura das etapas e de organização dos arquivos .R, a
 
 7 - Desenvolver um ChatBot no Telegram para sinalizar ao mantenedor do Web Scraping quando ele inicia e termina, ou quando ocorre um erro que interrompe a execução. (em desenvolvimento)
 
+## Base de dados obtidas pelo Web Scraping (Despesas Municipais - TCM/BA)
+
+É possível ter acesso à [base de dados das despesas municipais, referentes a cerca de 25 municípios, por meio deste link](https://www.dropbox.com/s/ykxn1twikwpwwie/tabela_despesas_municipais_tidy_data_BR.csv.gz?dl=1). Os dados estão armazenados em um único arquino no formato CSV (compactados com GZip) e armazenados no DropBox.
+
 
 # Comunidade e Colaboração
 
-O Observatório Social do Brasil, aqui representado pelo Observatório Social do Município de Santo Antônio de Jesus - Ba, gostaria de agradecer ao apoio da Comunidade R para o desenvolvimento do presente pacote, em especial à comunidade [TidyVerse]("https://www.tidyverse.org/), ao [Curso-R](https://www.curso-r.com/) pela colaboração ativa e material disponibilizado, à comunidade R Brasil (no Telegram), e todos aqueles de disponibilizam ebook sobre a linguagem R [link](https://bookdown.org/), posts e desenvolvem pacotes e soluções de infraestrutura para a linguagem R. Sem o esforço, colaboração, cooperativismo e abnegação de todos, esse trabalho não seria possível.
+O Observatório Social do Brasil, aqui representado pelo Observatório Social do Município de Santo Antônio de Jesus - Ba, gostaria de agradecer ao apoio da Comunidade R para o desenvolvimento do presente pacote, em especial à comunidade [TidyVerse](https://www.tidyverse.org/), ao [Curso-R](https://www.curso-r.com/) pela colaboração ativa e material disponibilizado, à comunidade R Brasil (no Telegram), e todos aqueles de disponibilizam ebook sobre a linguagem R [link](https://bookdown.org/), posts e desenvolvem pacotes e soluções de infraestrutura para a linguagem R. Sem o esforço, colaboração, cooperativismo e abnegação de todos, esse trabalho não seria possível.
 
 Ademais, quaisquer sugestões, reclamações ou críticas podem ser realizadas no área `issues` do GitHub.
 
+
+# Preparando e Executando o pacote `tcmbadespesas`
+
+## Infraestrutura
+
+Caso o usuário deseje executar o  "Web Scraping" do seu computador pessoal, precisará apensas seguir a sugestão de nomenclattura dos arguimentos abaixo:
+
+```{r eval=FALSE, include=FALSE}
+
+# Instalar o pacote:
+devtools::install_github("georgevbsantiago/tcmbadespesas")
+
+library(tcmbadespesas)
+
+# Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
+setwd("/diretorio/") 
+
+# Sugestão de argumentos para execução do 'Web Scraping' das despesas municipais de ex: Santo Antônio de Jesus ( cód. 2928703), que abrange a Prefeitura Municipal de SAJ, a Câmara Municipal de SAJ e o Consórcio Público Interfederaivo de Saúde RECONVALE. É possível também adicionar outros municípios. Para consultar o código dos municípios, foi disponibilizado uma tabela por meio da função `tcmbadespesas::tcm_cod_municipios` que armazena os códigos dos municípios extraídos do site do TCM-Ba. Ademais, para saber o propósito de cada argumento, favor consultar a documentação do `tcmbadespesas`por meio do comando `?tcmbadespesas::executar_web_scraping` .
+
+tcmbadespesas::executar_web_scraping(nome_scraping = "ws_tcmba_despesas",
+                                     ano_inicio = 2018,
+                                     cod_municipios_alvos = c(2928703),
+                                     sgbd = "sqlite",
+                                     repetir = "SIM",
+                                     backup_local = "SIM",
+                                     backup_nuvem = "NAO",
+                                     exportar_nuvem = "NAO")
+
+
+```
+
+
+Na hipótese do usuário preferir contratar um servidor numa infraestrutura de nuvem (ex: DigitalOcean, Microsoft Azure, Amazon Web Service), indicamos, a seguir, algumas dicas e condigurações para implementação do RStudio via Docker.
+
+Nesta sugestão de configuração via VPS na DigitalOcean usando Docker, realizamos a instalação do Cointainer do Projeto Rocker [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa: Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes sobre a configuração de implementação do "droplet" (nomenclatura de 'servidor' na DigitalOcean), indicamos como fonte de consulta o post: ['Run on a remote server'](https://www.andrewheiss.com/blog/2017/04/27/super-basic-practical-guide-to-docker-and-rstudio/) .
+
+As demais configurações sobre o 'Volume' (conceito do Docker que significa a pasta - diretório - compartilhado entre o 'container' Docker e o Host 'servidor') e as configurações de permissão para criação, leitura e escrita do diretório 'os_saj_web_scraping' (nome do diretório de trabalho escolhido pelo OS-SAJ), foram obtidos por meio de consulta no Google. OBS: A configuração de escrita no diretório 'os_saj_web_scraping', que será utilizado como diretório de trabalho do 'Web Scraping', foi necessário, pois caso não seja realizado, o RStudio retorna um erro que informa a impossibilidade de escrever/gravar/modificar os arquivos no diretório selecionado para ser o 'Volume'.
+
+------------------ Pré-Configuração do Container Docker do Rstudio na Digital Ocean ------------------
+
+```{r eval=FALSE, include=FALSE}
+
+#cloud-config
+runcmd:
+
+docker run -d -t -p 8787:8787 --name=web_scraping_ossaj -e ROOT=TRUE -e PASSWORD=senhadoUsuario -v /home/rstudio/os_saj_web_scraping:/home/rstudio/os_saj_web_scraping rocker/tidyverse
+  
+sudo chgrp -R rstudio /home/rstudio/os_saj_web_scraping
+
+sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
+
+```
+_________________________________________________________________________________________________________
+
+------------------ Configuração do Container Docker do Rstudio no Shell do Linux ------------------
+
+```{r eval=FALSE, include=FALSE}
+
+
+# Implantar um container com pasta Volume (3 etapas):
+
+docker run -d -t -p 8787:8787 --name=web_scraping_ossaj -e ROOT=TRUE -e PASSWORD=senhadoUsuario -v /home/rstudio/os_saj_web_scraping:/home/rstudio/os_saj_web_scraping rocker/tidyverse
+
+docker exec -d web_scraping_ossaj sudo chgrp -R rstudio /home/rstudio/os_saj_web_scraping
+
+docker exec -d web_scraping_ossaj sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
+
+```
+
+Após implementar o VPS do RStudio via Docker na DigitalOcean com as diretrizes indicadas acima, será necessário instalar o pacote `tcmbadespesas`por meio do comando: `devtools::install_github("georgevbsantiago/tcmbadespesas")`. Concluída a instalção, basta executar o Web Scraping com o exemplo de código demonstado acima.
 
 # BUGS e Melhorias
 
@@ -191,74 +265,4 @@ Entretanto, registramos os seguintes tópicos para relatar: Prioridades, Bugs, M
 
 ```
 
-
-# Preparando e Executando o pacote `tcmbadespesas`
-
-## Infraestrutura
-
-Caso o usuário deseje executar o  "Web Scraping" do seu computador pessoal, precisará apensas seguir a sugestão de nomenclattura dos arguimentos abaixo:
-
-```{r eval=FALSE, include=FALSE}
-
-# Instalar o pacote:
-devtools::install_github("georgevbsantiago/tcmbadespesas")
-
-library(tcmbadespesas)
-
-# Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
-setwd("/diretorio/") 
-
-# Sugestão de argumentos para execução do 'Web Scraping' das despesas municipais de ex: Santo Antônio de Jesus ( cód. 2928703), que abrange a Prefeitura Municipal de SAJ, a Câmara Municipal de SAJ e o Consórcio Público Interfederaivo de Saúde RECONVALE. É possível também adicionar outros municípios. Para consultar o código dos municípios, foi disponibilizado uma tabela por meio da função `tcmbadespesas::tcm_cod_municipios` que armazena os códigos dos municípios extraídos do site do TCM-Ba. Ademais, para saber o propósito de cada argumento, favor consultar a documentação do `tcmbadespesas`por meio do comando `?tcmbadespesas::executar_web_scraping` .
-
-tcmbadespesas::executar_web_scraping(nome_scraping = "ws_tcmba_despesas",
-                                     ano_inicio = 2018,
-                                     cod_municipios_alvos = c(2928703),
-                                     sgbd = "sqlite",
-                                     repetir = "SIM",
-                                     backup_local = "SIM",
-                                     backup_nuvem = "NAO",
-                                     exportar_nuvem = "NAO")
-
-
-```
-
-
-Na hipótese do usuário preferir contratar um servidor numa infraestrutura de nuvem (ex: DigitalOcean, Microsoft Azure, Amazon Web Service), indicamos, a seguir, algumas dicas e condigurações para implementação do RStudio via Docker.
-
-Nesta sugestão de configuração via VPS na DigitalOcean usando Docker, realizamos a instalação do Cointainer do Projeto Rocker [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa: Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes sobre a configuração de implementação do "droplet" (nomenclatura de 'servidor' na DigitalOcean), indicamos como fonte de consulta o post: ['Run on a remote server'](https://www.andrewheiss.com/blog/2017/04/27/super-basic-practical-guide-to-docker-and-rstudio/) .
-
-As demais configurações sobre o 'Volume' (conceito do Docker que significa a pasta - diretório - compartilhado entre o 'container' Docker e o Host 'servidor') e as configurações de permissão para criação, leitura e escrita do diretório 'os_saj_web_scraping' (nome do diretório de trabalho escolhido pelo OS-SAJ), foram obtidos por meio de consulta no Google. OBS: A configuração de escrita no diretório 'os_saj_web_scraping', que será utilizado como diretório de trabalho do 'Web Scraping', foi necessário, pois caso não seja realizado, o RStudio retorna um erro que informa a impossibilidade de escrever/gravar/modificar os arquivos no diretório selecionado para ser o 'Volume'.
-
------------------- Pré-Configuração do Container Docker do Rstudio na Digital Ocean ------------------
-
-```{r eval=FALSE, include=FALSE}
-
-#cloud-config
-runcmd:
-
-docker run -d -t -p 8787:8787 --name=web_scraping_ossaj -e ROOT=TRUE -e PASSWORD=senhadoUsuario -v /home/rstudio/os_saj_web_scraping:/home/rstudio/os_saj_web_scraping rocker/tidyverse
-  
-sudo chgrp -R rstudio /home/rstudio/os_saj_web_scraping
-
-sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
-
-```
-_________________________________________________________________________________________________________
-
------------------- Configuração do Container Docker do Rstudio no Shell do Linux ------------------
-
-```{r eval=FALSE, include=FALSE}
-
-
-# Implantar um container com pasta Volume (3 etapas):
-
-docker run -d -t -p 8787:8787 --name=web_scraping_ossaj -e ROOT=TRUE -e PASSWORD=senhadoUsuario -v /home/rstudio/os_saj_web_scraping:/home/rstudio/os_saj_web_scraping rocker/tidyverse
-
-docker exec -d web_scraping_ossaj sudo chgrp -R rstudio /home/rstudio/os_saj_web_scraping
-
-docker exec -d web_scraping_ossaj sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
-
-```
-
-Após implementar o VPS do RStudio via Docker na DigitalOcean com as diretrizes indicadas acima, será necessário instalar o pacote `tcmbadespesas`por meio do comando: `devtools::install_github("georgevbsantiago/tcmbadespesas")`. Concluída a instalção, basta executar o Web Scraping com o exemplo de código demonstado acima.
 
