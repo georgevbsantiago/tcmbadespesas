@@ -7,6 +7,9 @@
 #' 
 
 criar_tabelas_bd <- function(sgbd) {
+    
+        
+        DBI::dbDisconnect(connect_sgbd(sgbd))
 
 
     if (DBI::dbExistsTable(connect_sgbd(sgbd), "tabela_dcalendario") == FALSE) {
@@ -15,7 +18,8 @@ criar_tabelas_bd <- function(sgbd) {
                                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                                     data TEXT,
                                                     ano TEXT,
-                                                    mes TEXT
+                                                    mes TEXT,
+                                                    log_create TEXT
                                                     );"
         )
 
