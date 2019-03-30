@@ -1,8 +1,8 @@
 Web Scraping - Despesas dos Municípios do Estado da Bahia, via site do
 Tribunal de Contas dos Municípios do Estado da Bahia - TCM-Ba
 ================
-George Santiago
-17 de fevereiro de 2019
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # O Projeto
 
@@ -10,6 +10,21 @@ O pacote `tcmbadespesas` é uma das ferramentas utilizadas no projeto de
 “Transparência das Contas Públicas”, desenvolvido e executado pelo
 Observatório Social do Brasil - Município de Santo Antônio de Jesus -
 Estado da Bahia.
+
+Atualmente, o projeto é composto das seguintes ferramentas:
+
+Pacotes desenvolvidos em Linguagem R:
+
+  - [`tcmbapessoal`](https://github.com/georgevbsantiago/tcmbapessoal)
+  - [`tcmbadespesas`](https://github.com/georgevbsantiago/tcmbadespesas)
+  - [`qsacnpj`](https://github.com/georgevbsantiago/qsacnpj)
+
+Paineis desenvolvidos em Power BI:
+
+  - [`Painel de Monitoramento das Despesas dos Municípios do Estado da
+    Bahia`](https://goo.gl/rQhwsg)
+  - [`Painel de Monitoramento da Folha de Pessoal dos Municípios do
+    Estado da Bahia`](https://goo.gl/4zHpZp)
 
 ## Sobre a proposta e o objetivo do pacote
 
@@ -273,9 +288,8 @@ desenvolvimento)
 
 É possível ter acesso à [base de dados das despesas municipais,
 referentes a cerca de 25 municípios, por meio deste
-link](https://www.dropbox.com/s/ykxn1twikwpwwie/tabela_despesas_municipais_tidy_data_BR.csv.gz?dl=1).
-Os dados estão armazenados em um único arquino no formato CSV
-(compactados com GZip) e armazenados no DropBox.
+link](https://goo.gl/AYcBzh). Os dados estão armazenados em um único
+arquino no formato CSV (compactados com GZip) e armazenados no DropBox.
 
 # Comunidade e Colaboração
 
@@ -302,10 +316,34 @@ Caso o usuário deseje executar o “Web Scraping” do seu computador
 pessoal, precisará apensas seguir a sugestão de nomenclattura dos
 arguimentos abaixo:
 
+``` r
+
+# Instalar o pacote:
+devtools::install_github("georgevbsantiago/tcmbadespesas")
+
+library(tcmbadespesas)
+
+# Selecionar a pasta de trabalho (Work Directory) que será armazenado os dados coletados pelo 'Web Scraping'.
+setwd("/diretorio/") 
+
+# Sugestão de argumentos para execução do 'Web Scraping' das despesas municipais de ex: Santo Antônio de Jesus ( cód. 2928703), que abrange a Prefeitura Municipal de SAJ, a Câmara Municipal de SAJ e o Consórcio Público Interfederaivo de Saúde RECONVALE. É possível também adicionar outros municípios. Para consultar o código dos municípios, foi disponibilizado uma tabela por meio da função `tcmbadespesas::tcm_cod_municipios` que armazena os códigos dos municípios extraídos do site do TCM-Ba. Ademais, para saber o propósito de cada argumento, favor consultar a documentação do `tcmbadespesas`por meio do comando `?tcmbadespesas::executar_web_scraping` .
+
+tcmbadespesas::executar_web_scraping(nome_scraping = "ws_tcmba_despesas",
+                                     ano_inicio = 2018,
+                                     cod_municipios_alvos = c(2928703),
+                                     sgbd = "sqlite",
+                                     repetir = "SIM",
+                                     backup_local = "SIM",
+                                     backup_nuvem = "NAO",
+                                     exportar_nuvem = "NAO")
+```
+
 Na hipótese do usuário preferir contratar um servidor numa
 infraestrutura de nuvem (ex: DigitalOcean, Microsoft Azure, Amazon Web
 Service), indicamos, a seguir, algumas dicas e condigurações para
 implementação do RStudio via Docker.
+
+## Pré-Configuração do Container Docker do Rstudio
 
 Nesta sugestão de configuração via VPS na DigitalOcean usando Docker,
 realizamos a instalação do Cointainer do Projeto Rocker
@@ -322,20 +360,36 @@ significa a pasta - diretório - compartilhado entre o ‘container’ Docker
 e o Host ‘servidor’) e as configurações de permissão para criação,
 leitura e escrita do diretório ‘os\_saj\_web\_scraping’ (nome do
 diretório de trabalho escolhido pelo OS-SAJ), foram obtidos por meio de
-consulta no Google. OBS: A configuração de escrita no diretório
-‘os\_saj\_web\_scraping’, que será utilizado como diretório de
-trabalho do ‘Web Scraping’, foi necessário, pois caso não seja
-realizado, o RStudio retorna um erro que informa a impossibilidade de
-escrever/gravar/modificar os arquivos no diretório selecionado para ser
-o ‘Volume’.
+consulta no Google.
+
+*OBS: A configuração de escrita no diretório ‘os\_saj\_web\_scraping’,
+que será utilizado como diretório de trabalho do ‘Web Scraping’, foi
+necessário, pois caso não seja realizado, o RStudio retorna um erro que
+informa a impossibilidade de escrever/gravar/modificar os arquivos no
+diretório selecionado para ser o
+‘Volume’.*
+
+### 1° Opção: Em uma VPS na Digital Ocean, durante a configuração do Droplet
 
 —————— Pré-Configuração do Container Docker do Rstudio na Digital Ocean
 ——————
 
------
+    #cloud-config
+    runcmd:
+    
+    docker run -d -t -p 8787:8787 --name=web_scraping_ossaj -e ROOT=TRUE -e PASSWORD=senhadoUsuario -v /home/rstudio/os_saj_web_scraping:/home/rstudio/os_saj_web_scraping rocker/tidyverse
+      
+    sudo chgrp -R rstudio /home/rstudio/os_saj_web_scraping
+    
+    sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
 
-—————— Configuração do Container Docker do Rstudio no Shell do Linux
-——————
+### 2° Opção: Configuração do Container Docker do Rstudio no Shell do Linux
+
+    docker run -d -t -p 8787:8787 --name=web_scraping_ossaj -e ROOT=TRUE -e PASSWORD=senhadoUsuario -v /home/rstudio/os_saj_web_scraping:/home/rstudio/os_saj_web_scraping rocker/tidyverse
+    
+    docker exec -d web_scraping_ossaj sudo chgrp -R rstudio /home/rstudio/os_saj_web_scraping
+    
+    docker exec -d web_scraping_ossaj sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
 
 Após implementar o VPS do RStudio via Docker na DigitalOcean com as
 diretrizes indicadas acima, será necessário instalar o pacote
@@ -344,14 +398,96 @@ diretrizes indicadas acima, será necessário instalar o pacote
 a instalção, basta executar o Web Scraping com o exemplo de código
 demonstado acima.
 
-# BUGS e Melhorias
+# Futuras Implementações, Atualizações e BUGs
 
 Sabemos que o código disponibilizado na versão 1.0 pode ser melhorado e
 otimizado a sua performance. Contudo, até onde testamos, os resultados
 obtidos mostraram-se consistentes ao objetivo final que é alimentar o
-‘Painel de Monitoramento das Despesas dos Municípios do Estado da
-Bahia’, que tem o acesso disponibilizado a qualquer pessoa por meio do
-site do Observatório Social de Santo Antônio de Jesus.
+[Painel de Monitoramento das Despesas dos Municípios do Estado da
+Bahia](https://goo.gl/rQhwsg), que tem o acesso disponibilizado a
+qualquer pessoa por meio do site do Observatório Social de Santo Antônio
+de Jesus.
 
-Entretanto, registramos os seguintes tópicos para relatar: Prioridades,
-Bugs, Melhorias, Implementações, Ajuste na Infraestrutura… do código:
+### Futuras Implementações ou Melhorias
+
+  - Implementar um ChatBot pelo Telegram com o pacote ‘Plumber’;
+
+  - Implementar paralelismo (multi-threading) para acelerar as
+    requisicções HTTP e o tratamento dos dados, ou, ainda, permitir a
+    execucação das requisições e o tratamento de dados em paralelo.
+    Contudo, isso depende do pacote ‘furrr’ que apesar de ter a função
+    ‘furrr::pwalk’ já disponível na versão do pacote de
+    desenvolvimento no GitHub, ainda não está disponível no CRAN. Em
+    último caso, poderíamos tentar a implementação da função
+    ‘furrr::pmap’, mas isso ainda depende de testes a serem
+    realizados. Outra possibilidade é usar a nova funcionalidade do
+    RStudio 1.2 (Preview) que permite executar Jobs em segundo plano.
+
+  - Implementar uma rotina para evitar timeout nos Webs Scrapings que
+    estão contidos nas funções ‘criar\_tb\_dmunicipios\_entidades’ e
+    ‘criar\_tb\_dmunicipios’
+
+  - Aprimorar as funções que tratam erros de requisição HTTP
+
+  - Analisar a utilização da função ‘fs::path\_file\_sanitize()’ para
+    sanear caminhos de arquivos (retirar caracteres especiais) e o seu
+    comprimento (maiores que 256 caracteres)
+
+  - Verificar a necessidade de realizar essa troca
+
+> tb\_municipios\_alvos\_novos \<- tidyr::crossing(tb\_dcalendario,
+> tb\_municipios\_alvos\_novos) %\>%
+> 
+> tb\_municipios\_alvos\_novos \<- merge.data.frame(tb\_dcalendario,
+> tb\_municipios\_alvos\_novos) %\>%
+
+  - Desenvolver uma nova lógica para a função
+    “executar\_scraping\_num\_pags”
+
+  - Criar 3 Banco de Dados. OLTP - Para o Web Scraping; Data Stage Area
+    - Para os Dados Extraídos dos arquivos HMTL de Despesas; 4 - Data
+    WareHouse - Para conectar ao Power BI
+
+  - Retirar a condição ‘AUTOINCREMENT’ no campo de criação das tabelas,
+    conforme sugerido na documentação no SQLite
+
+  - Verificar se a rotina de tratamento de erro na função
+    tcmbapessoal::connect\_sgbd(sgbd) possibilita acabar com as rotinas
+    de While, já que a função nunca falharia devido a rotina de
+    tcmbapessoal::connect\_sgbd(sgbd)
+
+  - Colocar uma condição IF para pausar requisições entre 5h30 a 6h00
+
+  - Gerar ‘alertas’ sobre os pagamentos para publicar no Facebook,
+    Telegram ou Facebook
+
+> Ex: Despesas de festas em períodos não festivos; Ou emitir relatório
+> resumido na forma de imagem para ser enviado via Telegram, após obter
+> os dados completos do mês; \!\!\! Integrar o R com o Telegram
+> <https://blog.datascienceheroes.com/get-notify-when-an-r-script-finishes-on-telegram/>
+
+  - FALTA TESTAR:
+
+> A abordagem para evitar a criação de links de requisição já existeste
+> na ‘tabela\_requisicoes’ ao tratar páginas de despesas que deixaram de
+> ter menos de 20 links, após a complementação dos dados pelo ente
+> municipal. (Realizei um commit em relação a essa etapa;)
+
+### Atualizações
+
+#### versão: 0.1.4:
+
+  - Corrigido o erro durante a criação da tabela `tabela_dcalendario` no
+    SQLite: `Error in (function (classes, fdef, mtable): unable to find
+    an inherited method for function ‘dbWriteTable’ for signature
+    ‘"SQLiteConnection", "character"’`
+
+### BUGs e Warning
+
+  - Tratar esse aviso (abaixo). Provavelmente, ocorre durante a
+    aplicação da função separete na execução do padrão tidy data
+
+> 1: Expected 2 pieces. Missing pieces filled with `NA` in 11 rows
+> \[153, 552, 553, 674, 1064, 1065, 1066, 2800, 3001, 3687, 3688\]. 2:
+> Expected 2 pieces. Missing pieces filled with `NA` in 11 rows \[153,
+> 552, 553, 674, 1064, 1065, 1066, 2800, 3001, 3687, 3688\].
