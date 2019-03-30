@@ -40,7 +40,11 @@ O objetivo do pacote `tcmbadespesas` é obter/capturar os dados de Despesas dos 
 
 Todo o esforço empregado no desenvolvimento desta ferramenta tem como motivação o propósito de tornar o conteúdo das Contas Públicas mais acessíveis ao cidadão, ao capturar dados e, em seguida, aplicar técnicas de visualização que permitam a qualquer pessoa obter respostas a partir de perguntas simples como, por exemplo: Qual são os maiores fornecedores do ente municipal (prefeitura, câmara e entidades da adm. indireta)? Quanto o ente municipal (prefeitura, câmara e entidades da adm. indireta) gasta com despesas de diárias? Quanto o ente municipal (prefeitura. câmara e entidades da adm. indireta) gasta com despesas de Locação de Imóvel? Quanto o ente municipal (prefeitura, câmara e entidades da adm. indireta) gasta com despesas de Combustível? Quanto o ente municipal (prefeitura, câmara e entidades da adm. indireta) gasta com despesas de Merenda Escolar?... dentre outras perguntas.
 
-Além disso, parte do esforço empregado no desenvolvimento desta ferramenta é motivado pelo fato de que o TCM-Ba ainda não disponibiliza os dados municipais custodiados no formato de Dados Abertos (apesar de ter um excelente Portal de Transparência dos Dados Municipais). Na oportunidade, cabe esclarecer que há uma diferença substancial (de propósito e de finalidade jurídica) entre *Portal de Transparência* e *Portal de Dados Abertos*. Enquanto o Portal de Transparência visa disponibilizar o acesso de informações com foco em dados _legíveis por Humanos_, o Portal de Dados Abertos visa disponibilizar dados _legíveis por máquinas_  (computadores) que facilitarão a produção de conteúdo e conhecimento (relatórios, gráficos, grafos...) para Humanos. Ou seja, embora Portal de Transparência e Portal de Dados Abertos tenham como objetivo maximizar a Transparência dos dados Governamentais, são ferramentas complementares e, por isso, não se confundem. Além disso, numa perspectiva jurídica, cabe pontuar que o Portal de Transparência, assim como o Portal de Dados Abertos, tem fundamento jurídico específicos na Constituição Federal de 1988, na Lei de Responsabilidade Fiscal (Lei n.° 101/2000) e na Lei de Acesso à Informação (Lei n.º 12.527/2011), logo, é dever/obrigação dos entes públicos implementarem as duas funcionalidades para concretizar ao máximo o princípio da publicidade.
+Além disso, parte do esforço empregado no desenvolvimento desta ferramenta é motivado pelo fato de que o TCM-Ba ainda não disponibiliza os dados municipais custodiados no formato de Dados Abertos (apesar de ter um excelente Portal de Transparência dos Dados Municipais).
+
+Na oportunidade, cabe esclarecer que há uma diferença substancial (de propósito e de finalidade jurídica) entre *Portal de Transparência* e *Portal de Dados Abertos*. Enquanto o Portal de Transparência visa disponibilizar o acesso de informações com foco em dados _legíveis por Humanos_, o Portal de Dados Abertos visa disponibilizar dados _legíveis por máquinas_  (computadores) que facilitarão a produção de conteúdo e conhecimento (relatórios, gráficos, grafos...) para Humanos. Ou seja, embora Portal de Transparência e Portal de Dados Abertos tenham como objetivo maximizar a Transparência dos dados Governamentais, são ferramentas complementares e, por isso, não se confundem.
+
+Além disso, numa perspectiva jurídica, cabe pontuar que o Portal de Transparência, assim como o Portal de Dados Abertos, tem fundamento jurídico específicos na Constituição Federal de 1988, na Lei de Responsabilidade Fiscal (Lei n.° 101/2000) e na Lei de Acesso à Informação (Lei n.º 12.527/2011), logo, é dever/obrigação dos entes públicos implementarem as duas funcionalidades para concretizar ao máximo o princípio da publicidade.
 
 Nesse contexto, entretanto, cabe informar que após interlocução do Observatório Social do Brasil - Município de Santo Antônio de Jesus com o TCM-Ba (por meio de ofício e eventos institucionais) foi sinalizado que o desenvolvimento de um Portal de Dados Abertos, haja vista a sua relevância para a Sociedade.
 
@@ -178,15 +182,13 @@ Na hipótese do usuário preferir contratar um servidor numa infraestrutura de n
 
 ## Pré-Configuração do Container Docker do Rstudio
 
-Nesta sugestão de configuração via VPS na DigitalOcean usando Docker, realizamos a instalação do Cointainer do Projeto Rocker [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa: Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes sobre a configuração de implementação do "droplet" (nomenclatura de 'servidor' na DigitalOcean), indicamos como fonte de consulta o post: ['Run on a remote server'](https://www.andrewheiss.com/blog/2017/04/27/super-basic-practical-guide-to-docker-and-rstudio/) .
+Nesta sugestão de configuração via VPS na Digital Ocean usando Docker, realizamos a instalação do Cointainer do Projeto Rocker [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa: Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes sobre a configuração de implementação do "droplet" (nomenclatura de 'servidor' na DigitalOcean), indicamos como fonte de consulta o post: ['Run on a remote server'](https://www.andrewheiss.com/blog/2017/04/27/super-basic-practical-guide-to-docker-and-rstudio/) .
 
 As demais configurações sobre o 'Volume' (conceito do Docker que significa a pasta - diretório - compartilhado entre o 'container' Docker e o Host 'servidor') e as configurações de permissão para criação, leitura e escrita do diretório 'os_saj_web_scraping' (nome do diretório de trabalho escolhido pelo OS-SAJ), foram obtidos por meio de consulta no Google.
 
 *OBS: A configuração de escrita no diretório 'os_saj_web_scraping', que será utilizado como diretório de trabalho do 'Web Scraping', foi necessário, pois caso não seja realizado, o RStudio retorna um erro que informa a impossibilidade de escrever/gravar/modificar os arquivos no diretório selecionado para ser o 'Volume'.*
 
 ### 1° Opção: Em uma VPS na Digital Ocean, durante a configuração do Droplet
-
------------------- Pré-Configuração do Container Docker do Rstudio na Digital Ocean ------------------
 
 ```
 #cloud-config
@@ -211,7 +213,7 @@ docker exec -d web_scraping_ossaj sudo chmod -R 770 /home/rstudio/os_saj_web_scr
 
 ```
 
-Após implementar o VPS do RStudio via Docker na DigitalOcean com as diretrizes indicadas acima, será necessário instalar o pacote `tcmbadespesas`por meio do comando: `devtools::install_github("georgevbsantiago/tcmbadespesas")`. Concluída a instalção, basta executar o Web Scraping com o exemplo de código demonstado acima.
+Após implementar o VPS do RStudio via Docker na Digital Ocean com as diretrizes indicadas acima, será necessário instalar o pacote `tcmbadespesas`por meio do comando: `devtools::install_github("georgevbsantiago/tcmbadespesas")`. Concluída a instalção, basta executar o Web Scraping com o exemplo de código demonstado acima.
 
 # Futuras Implementações, Atualizações e BUGs
 

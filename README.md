@@ -56,8 +56,9 @@ com despesas de Merenda Escolar?… dentre outras perguntas.
 Além disso, parte do esforço empregado no desenvolvimento desta
 ferramenta é motivado pelo fato de que o TCM-Ba ainda não disponibiliza
 os dados municipais custodiados no formato de Dados Abertos (apesar de
-ter um excelente Portal de Transparência dos Dados Municipais). Na
-oportunidade, cabe esclarecer que há uma diferença substancial (de
+ter um excelente Portal de Transparência dos Dados Municipais).
+
+Na oportunidade, cabe esclarecer que há uma diferença substancial (de
 propósito e de finalidade jurídica) entre *Portal de Transparência* e
 *Portal de Dados Abertos*. Enquanto o Portal de Transparência visa
 disponibilizar o acesso de informações com foco em dados *legíveis por
@@ -66,14 +67,15 @@ por máquinas* (computadores) que facilitarão a produção de conteúdo e
 conhecimento (relatórios, gráficos, grafos…) para Humanos. Ou seja,
 embora Portal de Transparência e Portal de Dados Abertos tenham como
 objetivo maximizar a Transparência dos dados Governamentais, são
-ferramentas complementares e, por isso, não se confundem. Além disso,
-numa perspectiva jurídica, cabe pontuar que o Portal de Transparência,
-assim como o Portal de Dados Abertos, tem fundamento jurídico
-específicos na Constituição Federal de 1988, na Lei de Responsabilidade
-Fiscal (Lei n.° 101/2000) e na Lei de Acesso à Informação (Lei n.º
-12.527/2011), logo, é dever/obrigação dos entes públicos implementarem
-as duas funcionalidades para concretizar ao máximo o princípio da
-publicidade.
+ferramentas complementares e, por isso, não se confundem.
+
+Além disso, numa perspectiva jurídica, cabe pontuar que o Portal de
+Transparência, assim como o Portal de Dados Abertos, tem fundamento
+jurídico específicos na Constituição Federal de 1988, na Lei de
+Responsabilidade Fiscal (Lei n.° 101/2000) e na Lei de Acesso à
+Informação (Lei n.º 12.527/2011), logo, é dever/obrigação dos entes
+públicos implementarem as duas funcionalidades para concretizar ao
+máximo o princípio da publicidade.
 
 Nesse contexto, entretanto, cabe informar que após interlocução do
 Observatório Social do Brasil - Município de Santo Antônio de Jesus com
@@ -345,7 +347,7 @@ implementação do RStudio via Docker.
 
 ## Pré-Configuração do Container Docker do Rstudio
 
-Nesta sugestão de configuração via VPS na DigitalOcean usando Docker,
+Nesta sugestão de configuração via VPS na Digital Ocean usando Docker,
 realizamos a instalação do Cointainer do Projeto Rocker
 [link](https://hub.docker.com/r/rocker/tidyverse) (que agrupa:
 Compilador R; pacote TidyVerse; e Rstudio). Para obter mais detalhes
@@ -371,9 +373,6 @@ diretório selecionado para ser o
 
 ### 1° Opção: Em uma VPS na Digital Ocean, durante a configuração do Droplet
 
-—————— Pré-Configuração do Container Docker do Rstudio na Digital Ocean
-——————
-
     #cloud-config
     runcmd:
     
@@ -391,7 +390,7 @@ diretório selecionado para ser o
     
     docker exec -d web_scraping_ossaj sudo chmod -R 770 /home/rstudio/os_saj_web_scraping
 
-Após implementar o VPS do RStudio via Docker na DigitalOcean com as
+Após implementar o VPS do RStudio via Docker na Digital Ocean com as
 diretrizes indicadas acima, será necessário instalar o pacote
 `tcmbadespesas`por meio do comando:
 `devtools::install_github("georgevbsantiago/tcmbadespesas")`. Concluída
