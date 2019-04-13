@@ -22,9 +22,9 @@ Pacotes desenvolvidos em Linguagem R:
 Paineis desenvolvidos em Power BI:
 
   - [`Painel de Monitoramento das Despesas dos Municípios do Estado da
-    Bahia`](https://goo.gl/rQhwsg)
+    Bahia`](http://bit.ly/2GkegzY)
   - [`Painel de Monitoramento da Folha de Pessoal dos Municípios do
-    Estado da Bahia`](https://goo.gl/4zHpZp)
+    Estado da Bahia`](http://bit.ly/2USh8fH)
 
 ## Sobre a proposta e o objetivo do pacote
 
@@ -408,6 +408,8 @@ qualquer pessoa por meio do site do Observatório Social de Santo Antônio
 de Jesus.
 
 ### Futuras Implementações ou Melhorias
+
+  - Criar rotina para evitar a coluna documentos com `NA`
 
   - Implementar um ChatBot pelo Telegram com o pacote ‘Plumber’;
 
