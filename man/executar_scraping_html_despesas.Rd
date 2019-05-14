@@ -4,11 +4,13 @@
 \alias{executar_scraping_html_despesas}
 \title{Função que executa o Web Scraping das Páginas de despesas do TCM-ba}
 \usage{
-executar_scraping_html_despesas(sgbd = "sqlite")
+executar_scraping_html_despesas(sgbd = "sqlite", repetir = "SIM")
 }
 \arguments{
 \item{sgbd}{Define qual é o Banco de Dados a ser utilizado.
 Por padrão, é definido o SQLite.}
+
+\item{repetir}{Define se o Web Scraping deve repetir requisições que falharam anteriormente.}
 }
 \description{
 Função que executa o Web Scraping das Páginas de despesas do TCM-ba

@@ -200,7 +200,7 @@ executar_web_scraping <- function(nome_scraping = "ws_tcmba_despesas",
     
     # Função cria a tabela de requisições e faz o Web Scraping das páginas HTML que contêm
     # os dados das despesas. #OBS: O tempo de resposta do TCM está entre 10 a 30 segundos
-    executar_scraping_html_despesas(sgbd)
+    executar_scraping_html_despesas(sgbd, repetir)
     
     # Função que faz o parser dos HTMLs das depesas e o Data Wrangling dos HTMLs
     executar_data_wrangling_html_despesas(sgbd)

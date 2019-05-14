@@ -3,7 +3,7 @@ Title: Web Scraping das Despesas dos Municipios do Estado da Bahia
 Description: Web Scraping desenvolvido pelo Observatório Social de Santo Antonio de Jesus (Brasil/Bahia).
     Tem como objetivo obter e tratar os dados das Despesas dos Municipios do Estado da Bahia
     disponibilizados no site (na estrutura HTML) do TCM-Ba.
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     person("George",
            "Santiago",

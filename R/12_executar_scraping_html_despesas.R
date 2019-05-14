@@ -2,16 +2,29 @@
 #'
 #' @param sgbd Define qual é o Banco de Dados a ser utilizado.
 #' Por padrão, é definido o SQLite.
+#' @param repetir Define se o Web Scraping deve repetir requisições que falharam anteriormente.
 #' 
 #' @importFrom magrittr %>%
 #' 
 #' @export
 
-executar_scraping_html_despesas <- function(sgbd = "sqlite") {
+executar_scraping_html_despesas <- function(sgbd = "sqlite", repetir = "SIM") {
+    
+    if(repetir == "SIM") {
+        
+        tb_requisicoes <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_requisicoes") %>%
+            dplyr::filter(status_request_html_despesa == "N" | status_request_html_despesa == "R")
+        
+    }
+    
+    if(repetir == "NAO") {
+        
+        tb_requisicoes <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_requisicoes") %>%
+                          dplyr::filter(status_request_html_despesa == "N")
+        
+    }
 
 
-    tb_requisicoes <- DBI::dbReadTable(connect_sgbd(sgbd), "tabela_requisicoes") %>%
-                      dplyr::filter(status_request_html_despesa == "N")
 
     DBI::dbDisconnect(connect_sgbd(sgbd))
 
@@ -138,6 +151,15 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                                         outros = link_despesa,
                                         sgbd = sgbd
                                         )
+                            
+                            # Grava "R" na tabela 'tabela_requisicoes' para controlar
+                            # as requisições com erro e que precisam ser repetidas
+                            DBI::dbExecute(connect_sgbd(sgbd), 'UPDATE tabela_requisicoes
+                                                SET status_request_html_despesa = "R",
+                                                    log_request_html_despesa = :log_request
+                                                WHERE id = :id;',
+                                           params = list(log_request = as.character(log_request),
+                                                         id = as.character(id)))
                 
                 
                             # Parar a iteração e pular para a próxima requisição
@@ -165,6 +187,15 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                         outros = link_despesa,
                         sgbd = sgbd
                         )
+        
+            # Grava "R" na tabela 'tabela_requisicoes' para controlar
+            # as requisições com erro e que precisam ser repetidas
+            DBI::dbExecute(connect_sgbd(sgbd), 'UPDATE tabela_requisicoes
+                                                    SET status_request_html_despesa = "R",
+                                                        log_request_html_despesa = :log_request
+                                                    WHERE id = :id;',
+                           params = list(log_request = as.character(log_request),
+                                         id = as.character(id)))
     
     
             # Parar a iteração e pular para a próxima requisição.
@@ -191,6 +222,15 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                     outros = link_despesa,
                     sgbd = sgbd
                     )
+        
+        # Grava "R" na tabela 'tabela_requisicoes' para controlar
+        # as requisições com erro e que precisam ser repetidas
+        DBI::dbExecute(connect_sgbd(sgbd), 'UPDATE tabela_requisicoes
+                                                SET status_request_html_despesa = "R",
+                                                    log_request_html_despesa = :log_request
+                                                WHERE id = :id;',
+                       params = list(log_request = as.character(log_request),
+                                     id = as.character(id)))
         
         
         message("#### Erro 500 de Requisição para: ",
@@ -231,6 +271,15 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                     outros = link_despesa,
                     sgbd = sgbd
                     )
+        
+        # Grava "R" na tabela 'tabela_requisicoes' para controlar
+        # as requisições com erro e que precisam ser repetidas
+        DBI::dbExecute(connect_sgbd(sgbd), 'UPDATE tabela_requisicoes
+                                                SET status_request_html_despesa = "R",
+                                                    log_request_html_despesa = :log_request
+                                                WHERE id = :id;',
+                       params = list(log_request = as.character(log_request),
+                                     id = as.character(id)))
         
         
         return(message("### O parser no HTML ", nm_arq_html_pag, " - doc: ",
@@ -275,6 +324,15 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
                         outros = link_despesa,
                         sgbd = sgbd
                         )
+            
+            # Grava "R" na tabela 'tabela_requisicoes' para controlar
+            # as requisições com erro e que precisam ser repetidas
+            DBI::dbExecute(connect_sgbd(sgbd), 'UPDATE tabela_requisicoes
+                                                SET status_request_html_despesa = "R",
+                                                    log_request_html_despesa = :log_request
+                                                WHERE id = :id;',
+                           params = list(log_request = as.character(log_request),
+                                         id = as.character(id)))
             
             
             pegar_arquivo_html_log_rds <- parser_html_despesas$result %>%
@@ -325,7 +383,7 @@ scraping_html_despesas <- function(id, ano, cod_municipio, nm_municipio,
     
     
     
-            # Grava "S" na tabela 'tabela_paginas_links' para controlar os arquivos HTML já tratados
+            # Grava "S" na tabela 'tabela_requisicoes' para controlar as requisições com sucesso
             DBI::dbExecute(connect_sgbd(sgbd), 'UPDATE tabela_requisicoes
                                                 SET status_request_html_despesa = "S",
                                                     nm_arq_html_despesa = :nome_arquivo_html,
