@@ -137,7 +137,7 @@ Numa perspectiva de arquitetura das etapas e de organização dos arquivos .R, a
 
 ## Base de dados obtidas pelo Web Scraping (Despesas Municipais - TCM/BA)
 
-É possível ter acesso à [base de dados das despesas municipais, referentes a cerca de 25 municípios, por meio deste link](https://goo.gl/AYcBzh). Os dados estão armazenados em um único arquino no formato CSV (compactados com GZip) e armazenados no DropBox.
+É possível ter acesso à [base de dados das despesas municipais, referentes a cerca de 25 municípios, por meio deste link](http://bit.ly/2WoQPdR). Os dados estão armazenados em um único arquino no formato CSV (compactados com GZip).
 
 
 # Comunidade e Colaboração

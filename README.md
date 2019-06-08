@@ -290,8 +290,8 @@ desenvolvimento)
 
 É possível ter acesso à [base de dados das despesas municipais,
 referentes a cerca de 25 municípios, por meio deste
-link](https://goo.gl/AYcBzh). Os dados estão armazenados em um único
-arquino no formato CSV (compactados com GZip) e armazenados no DropBox.
+link](http://bit.ly/2WoQPdR). Os dados estão armazenados em um único
+arquino no formato CSV (compactados com GZip).
 
 # Comunidade e Colaboração
 

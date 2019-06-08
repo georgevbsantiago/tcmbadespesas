@@ -159,7 +159,8 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         # Verifica se há tabela na página html
         if (verificador_tabela == 0 ) {
 
-                    message("Não foi identificado tabela na Página: ", pagina, " da entidade: ", nm_entidade)
+                    message("Não foi identificado tabela na Página: ", pagina,
+                            " da entidade: ", nm_entidade, "no ano de:", ano)
         
                     break()
 
@@ -177,7 +178,8 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         # Se o gatilho de verificação for igual a 0, então ele pula para a próxima entidade municipal
         if (gatinho_to_break == 0 ) {
 
-                    message("Fim das requisições de ", nm_entidade, " na Página: ", pagina)
+                    message("Fim das requisições de ", nm_entidade, " na Página: ", pagina,
+                            "no ano de:", ano)
         
                     break()
 
@@ -190,7 +192,8 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         if (nm_arq_html_pag %in% tb_pag_links$nm_arq_html_pag & gatinho_to_break < 20) {
 
 
-                    message("Fim das requisições de ", nm_entidade, " na Página: ", pagina, " - P")
+                    message("Fim das requisições de ", nm_entidade, " na Página: ", pagina,
+                            "no ano de:", ano, " - P")
         
                     break()
 
