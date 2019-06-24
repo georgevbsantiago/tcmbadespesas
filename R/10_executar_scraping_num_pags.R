@@ -179,7 +179,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
         if (gatinho_to_break == 0 ) {
 
                     message("Fim das requisições de ", nm_entidade, " na Página: ", pagina,
-                            "no ano de:", ano)
+                            " no ano de: ", ano)
         
                     break()
 
@@ -193,7 +193,7 @@ scraping_num_pags <- function(id, ano, cod_municipio, nm_municipio,
 
 
                     message("Fim das requisições de ", nm_entidade, " na Página: ", pagina,
-                            "no ano de:", ano, " - P")
+                            " no ano de: ", ano, " - P")
         
                     break()
 
